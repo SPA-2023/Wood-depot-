@@ -1,0 +1,3295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#2C1810"/>
+<title>WOOD DEPOT (GPC GROUP)</title>
+<!-- jsPDF for PDF export -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" onerror="window._jsPDFFailed=true"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#F5EFE6;color:#1A1008;min-height:100vh;font-weight:600;overscroll-behavior:none}
+button,input,select{font-family:inherit;font-weight:700;-webkit-appearance:none;border-radius:0}
+input[type=number]{-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.hdr{background:linear-gradient(135deg,#2C1810,#4A2515);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+.logo-row{display:flex;align-items:center;gap:10px}
+.logo-ic{width:42px;height:42px;background:linear-gradient(135deg,#8B5E3C,#C4956A);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.logo-t h1{font-size:15px;font-weight:900;color:#F5E6D3;letter-spacing:1px;line-height:1.1}
+.logo-t p{font-size:9px;color:#C4956A;letter-spacing:.8px;text-transform:uppercase;margin-top:1px}
+.hdr-badge{background:#3A6B35;color:#fff;font-size:9px;font-weight:900;padding:4px 10px;border-radius:20px;text-transform:uppercase}
+.tabs{background:#3D1F0E;display:flex;position:sticky;top:66px;z-index:99;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.tab{flex:1;padding:11px 4px;text-align:center;font-size:10px;font-weight:900;color:#A07050;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;user-select:none}
+.tab.active{color:#F5E6D3;border-bottom-color:#E8A020;background:rgba(255,255,255,.06)}
+.tab-badge{display:inline-block;background:#E8A020;color:#fff;border-radius:10px;font-size:8px;padding:1px 5px;margin-left:2px;font-weight:900}
+.page{display:none;padding:14px;padding-bottom:110px}
+.page.active{display:block}
+.card{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.08);border:1px solid rgba(139,94,60,.15)}
+.card-title{font-size:13px;font-weight:900;color:#4A2515;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.fld{margin-bottom:12px}
+.lbl{display:block;font-size:14px;font-weight:900;color:#2C1810;margin-bottom:6px}
+.inp{width:100%;padding:12px 13px;border:2px solid #DDD0C0;border-radius:9px;font-size:18px;color:#1A1008;background:#FDFAF6;outline:none;font-weight:700;transition:border-color .2s}
+.inp:focus{border-color:#8B5E3C;background:#fff}
+.note{background:#FFFBEB;border-left:3px solid #E8A020;padding:8px 11px;font-size:11px;color:#5C3D1E;margin-bottom:11px;border-radius:0 8px 8px 0;font-weight:700}
+.divider{height:1px;background:linear-gradient(90deg,#C4956A,transparent);margin:14px 0}
+.type-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px}
+.type-btn{padding:10px 4px;border:2px solid #DDD0C0;border-radius:9px;background:#FDFAF6;color:#5C3D1E;font-weight:900;cursor:pointer;font-size:11px;text-align:center;transition:all .2s}
+.type-btn.sel{background:#4A2515;color:#F5E6D3;border-color:#4A2515}
+.qty-row{display:flex;align-items:center;gap:8px;margin-top:4px}
+.qbtn{width:40px;height:40px;border-radius:8px;border:2px solid #8B5E3C;background:#FFF8F0;color:#5C3D1E;font-size:24px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.qbtn:active{background:#8B5E3C;color:#fff}
+.qnum{width:64px;text-align:center;font-size:18px;font-weight:900;color:#1A1008;border:2px solid #8B5E3C;border-radius:8px;padding:8px 4px;background:#fff;outline:none}
+.cbox{background:linear-gradient(135deg,#2C1810,#4A2515);border-radius:12px;padding:13px;margin-top:12px}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ci{text-align:center;background:rgba(255,255,255,.08);border-radius:8px;padding:8px 4px}
+.ci-l{font-size:9px;color:#C4956A;font-weight:900;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
+.ci-v{font-size:20px;font-weight:900;color:#F5E6D3;line-height:1}
+.ci-v.gold{color:#FBBF24;font-size:24px}
+.btn{width:100%;padding:14px;border:none;border-radius:11px;font-size:15px;font-weight:900;cursor:pointer;text-transform:uppercase;letter-spacing:.4px;transition:transform .1s;margin-top:10px;display:block}
+.btn:active{transform:scale(.97)}
+.btn-gn{background:linear-gradient(135deg,#166534,#14532d);color:#fff}
+.btn-am{background:linear-gradient(135deg,#E8A020,#D4840A);color:#fff}
+.btn-bl{background:linear-gradient(135deg,#1e40af,#1d4ed8);color:#fff}
+.btn-rd{background:#FEE2E2;border:2px solid #DC2626;color:#DC2626}
+.btn-pu{background:linear-gradient(135deg,#6b21a8,#7c3aed);color:#fff}
+.btn2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.entry{background:#FDFAF6;border:1.5px solid #DDD0C0;border-radius:12px;padding:12px;margin-bottom:8px;position:relative}
+.entry.es{border-left:4px solid #166534}
+.entry.er{border-left:4px solid #1e40af}
+.entry.ef{border-left:4px solid #DC2626}
+.e-type{font-size:9px;font-weight:900;text-transform:uppercase;margin-bottom:2px}
+.e-name{font-size:15px;font-weight:900;color:#2C1810;margin-bottom:4px}
+.e-dim{font-size:12px;font-weight:700;color:#5C3D1E;margin-bottom:6px}
+.e-cells{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-bottom:6px}
+.ec{background:#fff;border-radius:6px;padding:5px;text-align:center;border:1px solid #DDD0C0}
+.ec-l{font-size:8px;color:#A07050;font-weight:900;text-transform:uppercase}
+.ec-v{font-size:13px;font-weight:900;color:#4A2515}
+.e-amt{background:linear-gradient(135deg,#2C1810,#4A2515);border-radius:8px;padding:7px 10px;display:flex;justify-content:space-between;align-items:center}
+.dbtn{position:absolute;top:10px;right:10px;background:#FEE2E2;color:#DC2626;border:none;border-radius:7px;width:28px;height:28px;font-size:14px;cursor:pointer;font-weight:900;display:flex;align-items:center;justify-content:center}
+.brow{background:#fff;border-radius:12px;border:1.5px solid #DDD0C0;padding:12px;margin-bottom:10px}
+.brow.bs{border-left:4px solid #166534}
+.brow.br{border-left:4px solid #1e40af}
+.brow.bf{border-left:4px solid #DC2626}
+.bamt{background:linear-gradient(135deg,#2C1810,#4A2515);border-radius:10px;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.pay-card{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;border:2.5px solid #8B5E3C}
+.grand-bar{background:linear-gradient(135deg,#2C1810,#4A2515);border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.paid-bar{background:#DCFCE7;border-radius:8px;padding:9px 13px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.due-bar{border-radius:10px;padding:11px 15px;display:flex;justify-content:space-between;align-items:center;border:2px solid #DC2626;background:#FEF2F2}
+.pct-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
+.pct-btn{padding:8px 4px;background:#F5E6D3;color:#4A2515;border:1.5px solid #C4956A;border-radius:8px;font-weight:900;cursor:pointer;font-size:12px}
+.pct-btn:active{background:#8B5E3C;color:#fff}
+.sum-card{background:#fff;border-radius:12px;border:1.5px solid #DDD0C0;padding:12px;margin-bottom:8px}
+.sum-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.sum-cell{background:linear-gradient(135deg,#2C1810,#4A2515);border-radius:8px;padding:10px 6px;text-align:center}
+.sum-l{font-size:9px;color:#C4956A;font-weight:900;text-transform:uppercase;margin-bottom:2px}
+.sum-v{font-size:17px;font-weight:900;color:#FBBF24}
+.sticky{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#2C1810,#4A2515);z-index:400;padding:9px 18px 14px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 -4px 18px rgba(0,0,0,.35)}
+#toast{position:fixed;bottom:80px;left:14px;right:14px;z-index:9000;border-radius:11px;padding:13px 16px;font-weight:900;font-size:13px;box-shadow:0 4px 18px rgba(0,0,0,.3);display:none;text-align:center}
+#loader{position:fixed;inset:0;background:rgba(44,24,16,.88);z-index:9500;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.spin{width:48px;height:48px;border:5px solid rgba(255,255,255,.2);border-top-color:#E8A020;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loaderMsg{color:#F5E6D3;font-size:14px;font-weight:900}
+#previewModal{position:fixed;inset:0;z-index:9999;background:#111;display:none;flex-direction:column;overflow:hidden}
+#previewModal.show{display:flex}
+#previewScroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px;display:flex;justify-content:center;align-items:flex-start}
+#previewScroll canvas{max-width:100%;height:auto;border-radius:8px;display:block}
+.modal-hdr{background:linear-gradient(135deg,#2C1810,#4A2515);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-btns{background:#1a1008;padding:10px 10px 14px;flex-shrink:0;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px}
+.mbt{border:none;border-radius:10px;padding:11px 4px;font-weight:900;font-size:11px;cursor:pointer;color:#fff}
+.err-hint{font-size:10px;color:#DC2626;margin-top:3px;font-weight:900;display:none}
+.empty{text-align:center;padding:30px 16px;color:#A07050}
+#customConfirm{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9800;display:none;align-items:flex-end;justify-content:center}
+#customConfirm.show{display:flex}
+.cc-box{background:#fff;border-radius:16px 16px 0 0;padding:20px 16px 32px;width:100%;max-width:480px}
+.cc-msg{font-size:14px;font-weight:700;color:#2C1810;margin-bottom:16px;line-height:1.5}
+.cc-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="spin"></div><div id="loaderMsg">Generating…</div></div>
+
+<!-- Custom Confirm Dialog (Fix 15) -->
+<div id="customConfirm">
+  <div class="cc-box">
+    <div class="cc-msg" id="ccMsg"></div>
+    <div class="cc-btns">
+      <button id="ccNo" style="padding:13px;background:#F5E6D3;color:#4A2515;border:2px solid #C4956A;border-radius:10px;font-weight:900;font-size:14px;cursor:pointer">Cancel</button>
+      <button id="ccYes" style="padding:13px;background:linear-gradient(135deg,#DC2626,#b91c1c);color:#fff;border:none;border-radius:10px;font-weight:900;font-size:14px;cursor:pointer">Yes, Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div id="previewModal">
+  <div class="modal-hdr">
+    <span style="color:#F5E6D3;font-size:13px;font-weight:900">Preview</span>
+    <button id="modalClose" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:8px;padding:7px 14px;font-weight:900;font-size:13px;cursor:pointer">✕ Close</button>
+  </div>
+  <div id="previewScroll"><canvas id="previewCanvas"></canvas></div>
+  <div class="modal-btns">
+    <button id="btnSave" class="mbt" style="background:linear-gradient(135deg,#166534,#14532d)">Save PNG</button>
+    <button id="btnShare" class="mbt" style="background:linear-gradient(135deg,#1e40af,#1d4ed8)">Share</button>
+    <button id="btnPDF" class="mbt" style="background:linear-gradient(135deg,#6b21a8,#7c3aed)">Save PDF</button>
+    <button id="btnPrint" class="mbt" style="background:linear-gradient(135deg,#4A2515,#2C1810)">Print</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<div class="hdr">
+  <div class="logo-row">
+    <div class="logo-ic" style="font-size:20px;font-family:serif">WD</div>
+    <div class="logo-t"><h1>WOOD DEPOT (GPC GROUP)</h1><p>Wholesale &amp; Retail Timber</p></div>
+  </div>
+  <div class="hdr-badge" id="netBadge">OFFLINE</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" id="tab0" onclick="showPage(0)">+ Entry</div>
+  <div class="tab" id="tab1" onclick="showPage(1)">Session <span class="tab-badge" id="sBadge">0</span></div>
+  <div class="tab" id="tab2" onclick="showPage(2)">Bill <span class="tab-badge" id="bBadge">0</span></div>
+  <div class="tab" id="tab3" onclick="showPage(3)">Saved <span class="tab-badge" id="svBadge">0</span></div>
+  <div class="tab" id="tab4" onclick="showPage(4)">⚙</div>
+</div>
+
+<!-- PAGE 0: ENTRY -->
+<div id="page0" class="page active">
+  <div class="card">
+    <div class="card-title">Product Type</div>
+    <div class="type-grid">
+      <button class="type-btn sel" id="tbSawn"  onclick="setPtype('sawn')">Sawn Timber</button>
+      <button class="type-btn"    id="tbRound"  onclick="setPtype('round')">Round Log</button>
+      <button class="type-btn"    id="tbFire"   onclick="setPtype('firewood')">Fire Wood</button>
+    </div>
+    <div class="fld">
+      <label class="lbl">Wood Type</label>
+      <select class="inp" id="woodType">
+        <option>ACACIA</option><option>SAL</option><option selected>TEAK</option>
+        <option>BANDHAN</option><option>ARJUNA</option><option>CHAKUNDA</option>
+        <option>BIJA</option><option>ASAN</option><option>TENTERA</option>
+        <option>GAMHARI</option><option>OTHER</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label class="lbl">Custom Name <span style="font-size:11px;color:#A07050;font-weight:600">(optional)</span></label>
+      <input class="inp" id="pName" placeholder="e.g. TEAK Patta, SAL Log..."/>
+    </div>
+  </div>
+
+  <!-- SAWN -->
+  <div class="card" id="fSawn">
+    <div class="card-title">Sawn Timber</div>
+    <div class="note">Width x Thickness x Length x Qty x Rate</div>
+    <div class="fld"><label class="lbl">Width (inches)</label><input class="inp" type="text" inputmode="decimal" id="sW" placeholder="e.g. 4"/></div>
+    <div class="fld"><label class="lbl">Thickness (inches)</label><input class="inp" type="text" inputmode="decimal" id="sT" placeholder="e.g. 2"/></div>
+    <div class="fld"><label class="lbl">Length (feet)</label><input class="inp" type="text" inputmode="decimal" id="sL" placeholder="e.g. 10"/></div>
+    <div class="fld">
+      <label class="lbl">Quantity (pieces)</label>
+      <div class="qty-row">
+        <button class="qbtn" id="sMinus">-</button>
+        <input class="qnum" type="text" inputmode="numeric" id="sPcs" value="1"/>
+        <button class="qbtn" id="sPlus">+</button>
+        <span style="font-size:12px;color:#8B5E3C;font-weight:700">pcs</span>
+      </div>
+    </div>
+    <div class="cbox">
+      <div class="cgrid">
+        <div class="ci"><div class="ci-l">Per Piece CFT</div><div class="ci-v" id="s_cft1">0.000</div></div>
+        <div class="ci"><div class="ci-l">Per Piece CUM</div><div class="ci-v" id="s_cum1">0.0000</div></div>
+        <div class="ci"><div class="ci-l">Total CFT</div><div class="ci-v gold" id="s_tcft">0.000</div></div>
+        <div class="ci"><div class="ci-l">Total CUM</div><div class="ci-v gold" id="s_tcum">0.0000</div></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="fld"><label class="lbl">Rate per CFT (Rs.)</label><input class="inp" type="text" inputmode="decimal" id="sRate" placeholder="e.g. 850"/>
+      <div id="sRateHint" style="display:none;font-size:10px;color:#DC2626;margin-top:3px;font-weight:900">⚠ Rate seems very high (&gt;₹8000/CFT) — please verify!</div></div>
+    <div class="cbox" style="margin-top:6px">
+      <div class="ci" style="background:rgba(255,255,255,.1);width:100%">
+        <div class="ci-l">TOTAL AMOUNT</div>
+        <div class="ci-v gold" id="s_amt" style="font-size:28px">Rs.0.00</div>
+        <div style="font-size:10px;color:#C4956A;margin-top:3px;font-weight:700" id="s_fm"></div>
+      </div>
+    </div>
+    <button class="btn btn-gn" id="addSawn">+ Add to Session</button>
+  </div>
+
+  <!-- ROUND -->
+  <div class="card" id="fRound" style="display:none">
+    <div class="card-title">Round Log</div>
+    <div class="note">Hoppus: CFT = (Girth / 4)^2 x Length / 144</div>
+    <div class="fld"><label class="lbl">Girth (inches)</label><input class="inp" type="text" inputmode="decimal" id="rG" placeholder="e.g. 36"/></div>
+    <div class="fld"><label class="lbl">Length (feet)</label><input class="inp" type="text" inputmode="decimal" id="rL" placeholder="e.g. 12"/></div>
+    <div class="fld">
+      <label class="lbl">Quantity (logs)</label>
+      <div class="qty-row">
+        <button class="qbtn" id="rMinus">-</button>
+        <input class="qnum" type="text" inputmode="numeric" id="rPcs" value="1"/>
+        <button class="qbtn" id="rPlus">+</button>
+        <span style="font-size:12px;color:#8B5E3C;font-weight:700">logs</span>
+      </div>
+    </div>
+    <div class="cbox">
+      <div class="cgrid">
+        <div class="ci"><div class="ci-l">Per Log CFT</div><div class="ci-v" id="r_cft1">0.000</div></div>
+        <div class="ci"><div class="ci-l">Per Log CUM</div><div class="ci-v" id="r_cum1">0.0000</div></div>
+        <div class="ci"><div class="ci-l">Total CFT</div><div class="ci-v gold" id="r_tcft">0.000</div></div>
+        <div class="ci"><div class="ci-l">Total CUM</div><div class="ci-v gold" id="r_tcum">0.0000</div></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="fld"><label class="lbl">Rate per CFT (Rs.)</label><input class="inp" type="text" inputmode="decimal" id="rRate" placeholder="e.g. 1200"/>
+      <div id="rRateHint" style="display:none;font-size:10px;color:#DC2626;margin-top:3px;font-weight:900">⚠ Rate seems very high (&gt;₹8000/CFT) — please verify!</div></div>
+    <div class="cbox" style="margin-top:6px">
+      <div class="ci" style="background:rgba(255,255,255,.1);width:100%">
+        <div class="ci-l">TOTAL AMOUNT</div>
+        <div class="ci-v gold" id="r_amt" style="font-size:28px">Rs.0.00</div>
+        <div style="font-size:10px;color:#C4956A;margin-top:3px;font-weight:700" id="r_fm"></div>
+      </div>
+    </div>
+    <button class="btn btn-gn" id="addRound">+ Add to Session</button>
+  </div>
+
+  <!-- FIREWOOD -->
+  <div class="card" id="fFire" style="display:none">
+    <div class="card-title">Fire Wood</div>
+    <div class="note">1 Quintal = 100 kg</div>
+    <div class="fld"><label class="lbl">Weight (kg)</label><input class="inp" type="text" inputmode="decimal" id="fKg" placeholder="e.g. 250"/></div>
+    <div class="fld">
+      <label class="lbl">Quantity (loads)</label>
+      <div class="qty-row">
+        <button class="qbtn" id="fMinus">-</button>
+        <input class="qnum" type="text" inputmode="numeric" id="fPcs" value="1"/>
+        <button class="qbtn" id="fPlus">+</button>
+      </div>
+    </div>
+    <div class="cbox">
+      <div class="cgrid">
+        <div class="ci"><div class="ci-l">Quintal/load</div><div class="ci-v gold" id="f_q">0.000</div></div>
+        <div class="ci"><div class="ci-l">Total Quintal</div><div class="ci-v gold" id="f_tq">0.000</div></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="fld"><label class="lbl">Rate per Quintal (Rs.)</label><input class="inp" type="text" inputmode="decimal" id="fRate" placeholder="e.g. 400"/>
+      <div id="fRateHint" style="display:none;font-size:10px;color:#DC2626;margin-top:3px;font-weight:900">⚠ Rate seems very high (&gt;₹5000/Qtl) — please verify!</div></div>
+    <div class="cbox" style="margin-top:6px">
+      <div class="ci" style="background:rgba(255,255,255,.1);width:100%">
+        <div class="ci-l">TOTAL AMOUNT</div>
+        <div class="ci-v gold" id="f_amt" style="font-size:28px">Rs.0.00</div>
+        <div style="font-size:10px;color:#C4956A;margin-top:3px;font-weight:700" id="f_fm"></div>
+      </div>
+    </div>
+    <button class="btn btn-gn" id="addFire">+ Add to Session</button>
+  </div>
+</div>
+
+<!-- PAGE 1: SESSION -->
+<div id="page1" class="page">
+  <div class="sum-card" id="sumCard" style="display:none">
+    <div style="font-size:12px;font-weight:900;color:#4A2515;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Session Summary</div>
+    <div class="sum-grid" id="sumGrid"></div>
+  </div>
+  <div id="sessionList"></div>
+  <div id="sessAct" style="display:none;padding-bottom:10px">
+    <div class="btn2">
+      <button class="btn btn-am" style="margin:0" id="sessImgBtn">Download Image</button>
+      <button class="btn btn-gn" style="margin:0" id="sessAddBill">Add All to Bill</button>
+    </div>
+    <button class="btn btn-rd" style="margin-top:8px" id="sessClear">Clear Session</button>
+  </div>
+</div>
+
+<!-- PAGE 2: BILL -->
+<div id="page2" class="page">
+  <div class="card">
+    <div class="card-title">Customer Details <span style="font-size:10px;color:#DC2626;font-weight:900">* Required</span></div>
+    <div class="fld">
+      <label class="lbl">* Customer Name</label>
+      <input class="inp" id="custName" placeholder="Full name..."/>
+      <div class="err-hint" id="eN">Name required</div>
+    </div>
+    <div class="fld">
+      <label class="lbl">* Mobile Number</label>
+      <input class="inp" id="custMob" placeholder="Mobile..." type="tel" inputmode="tel"/>
+      <div class="err-hint" id="eM">Enter a valid 10-digit mobile number</div>
+    </div>
+    <div class="fld">
+      <label class="lbl">* Address</label>
+      <input class="inp" id="custAddr" placeholder="Address..."/>
+      <div class="err-hint" id="eA">Address required</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div><label class="lbl">Bill No. <span style="font-size:10px;color:#A07050;font-weight:600">(auto)</span></label>
+        <input class="inp" id="billNo" readonly tabindex="-1" style="background:#F0EBE3;color:#8B5E3C;cursor:default;border-style:dashed"/></div>
+      <div><label class="lbl">Date</label><input class="inp" id="billDate" type="date"/></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Items <span id="billCount" style="color:#E8A020">(0)</span></div>
+    <div id="billList"></div>
+  </div>
+  <!-- VEHICLE DETAILS CARD (optional) -->
+  <div class="card" id="vehicleCard">
+    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+      <span>&#128666; Vehicle Details <span style="font-size:10px;color:#C4956A;font-weight:700">(Optional)</span></span>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div>
+        <label class="lbl">Vehicle No.</label>
+        <!-- auto-uppercase on input; driver name auto-filled from memory -->
+        <input class="inp" id="vehNo" placeholder="e.g. OD-05 AB 1234" style="text-transform:uppercase"/>
+        <div style="font-size:10px;color:#8B5E3C;margin-top:3px;font-weight:700" id="driverAutoHint" style="display:none"></div>
+      </div>
+      <div>
+        <label class="lbl">Driver Name <span style="font-size:10px;color:#A07050;font-weight:600">(auto from memory)</span></label>
+        <input class="inp" id="vehDriver" placeholder="Driver name..."/>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px">
+      <div>
+        <label class="lbl">From <span style="font-size:10px;color:#A07050;font-weight:600">(fixed)</span></label>
+        <!-- Origin is always CHOUDWAR, CUTTACK — readonly -->
+        <input class="inp" id="vehFrom" value="CHOUDWAR, CUTTACK" readonly tabindex="-1"
+               style="background:#F0EBE3;color:#8B5E3C;cursor:default;border-style:dashed;text-transform:uppercase"/>
+      </div>
+      <div><label class="lbl">To <span style="font-size:10px;color:#A07050;font-weight:600">(destination)</span></label>
+        <input class="inp" id="vehTo" placeholder="Destination..." style="text-transform:uppercase"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="pay-card" id="payCard" style="display:none">
+    <div class="card-title">Payment</div>
+    <div class="grand-bar">
+      <div style="color:#C4956A;font-weight:900;font-size:11px;text-transform:uppercase">Grand Total (Items)</div>
+      <div style="font-size:26px;font-weight:900;color:#FBBF24" id="gtDisp">Rs.0.00</div>
+    </div>
+
+    <!-- TRANSPORT & LOADING -->
+    <div style="background:#1a2e1a;border-radius:10px;padding:12px;margin-bottom:10px">
+      <div style="font-size:11px;color:#86efac;font-weight:900;text-transform:uppercase;margin-bottom:8px">🚛 Transport &amp; Loading Charges</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div>
+          <label class="lbl" style="color:#86efac">Transport (Rs.)</label>
+          <input class="inp" type="text" inputmode="decimal" id="transportAmt" placeholder="0.00" style="font-size:18px"/>
+        </div>
+        <div>
+          <label class="lbl" style="color:#86efac">Loading (Rs.)</label>
+          <input class="inp" type="text" inputmode="decimal" id="loadingAmt" placeholder="0.00" style="font-size:18px"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISCOUNT -->
+    <div style="background:#1c1a2e;border-radius:10px;padding:12px;margin-bottom:10px">
+      <div style="font-size:11px;color:#c4b5fd;font-weight:900;text-transform:uppercase;margin-bottom:8px">🏷 Discount</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end">
+        <div>
+          <label class="lbl" style="color:#c4b5fd">Discount</label>
+          <input class="inp" type="text" inputmode="decimal" id="discountAmt" placeholder="0.00" style="font-size:18px"/>
+        </div>
+        <div>
+          <label class="lbl" style="color:#c4b5fd">Type</label>
+          <select class="inp" id="discountType" style="font-size:15px">
+            <option value="flat">Flat (Rs.)</option>
+            <option value="pct">Percent (%)</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px solid #2d2a4a">
+        <span style="color:#c4b5fd;font-weight:900;font-size:12px">Discount Amount</span>
+        <span style="color:#a78bfa;font-weight:900;font-size:18px" id="discountDisp">Rs.0.00</span>
+      </div>
+    </div>
+
+    <!-- GST -->
+    <div style="background:#1a1e2e;border-radius:10px;padding:12px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-size:11px;color:#93c5fd;font-weight:900;text-transform:uppercase">🧾 GST</div>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+          <span style="font-size:11px;color:#93c5fd;font-weight:900">Enable GST</span>
+          <input type="checkbox" id="gstToggle" style="width:18px;height:18px;cursor:pointer"/>
+        </label>
+      </div>
+      <div id="gstFields" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div>
+            <label class="lbl" style="color:#93c5fd">GST Type</label>
+            <select class="inp" id="gstType" style="font-size:14px">
+              <option value="cgst_sgst">CGST + SGST (Intrastate)</option>
+              <option value="igst">IGST (Interstate)</option>
+            </select>
+          </div>
+          <div>
+            <label class="lbl" style="color:#93c5fd">GST Rate (%)</label>
+            <select class="inp" id="gstRate" style="font-size:14px">
+              <option value="5">5%</option>
+              <option value="12" selected>12%</option>
+              <option value="18">18%</option>
+              <option value="28">28%</option>
+            </select>
+          </div>
+        </div>
+        <div style="background:rgba(147,197,253,.08);border-radius:8px;padding:8px 10px" id="gstBreakdown">
+          <div style="display:flex;justify-content:space-between"><span style="color:#93c5fd;font-size:12px;font-weight:900" id="gstLabel1">CGST (6%)</span><span style="color:#bfdbfe;font-weight:900;font-size:14px" id="gstAmt1">Rs.0.00</span></div>
+          <div style="display:flex;justify-content:space-between;margin-top:4px"><span style="color:#93c5fd;font-size:12px;font-weight:900" id="gstLabel2">SGST (6%)</span><span style="color:#bfdbfe;font-weight:900;font-size:14px" id="gstAmt2">Rs.0.00</span></div>
+          <div style="display:flex;justify-content:space-between;margin-top:4px;padding-top:4px;border-top:1px solid rgba(147,197,253,.2)"><span style="color:#93c5fd;font-size:12px;font-weight:900">Total GST</span><span style="color:#60a5fa;font-weight:900;font-size:15px" id="gstTotal">Rs.0.00</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOTALS SUMMARY -->
+    <div style="background:rgba(232,160,32,.08);border-radius:10px;padding:10px 13px;margin-bottom:10px;border:1px solid rgba(232,160,32,.3)">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="color:#C4956A;font-weight:900;font-size:12px">Sub-Total with Charges</span>
+        <span style="color:#FBBF24;font-weight:900;font-size:18px" id="gtWithChargesDisp">Rs.0.00</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center" id="gtFinalRow">
+        <span style="color:#E8A020;font-weight:900;font-size:13px">GRAND TOTAL (incl. GST, less Discount)</span>
+        <span style="color:#FBBF24;font-weight:900;font-size:22px" id="gtFinalDisp">Rs.0.00</span>
+      </div>
+    </div>
+
+    <div class="fld">
+      <label class="lbl" style="color:#166534">Amount Paid (Rs.)</label>
+      <input class="inp" type="text" inputmode="decimal" id="paidAmt" placeholder="0.00" style="font-size:22px"/>
+    </div>
+    <div class="pct-grid">
+      <button class="pct-btn" id="pct25">25%</button>
+      <button class="pct-btn" id="pct50">50%</button>
+      <button class="pct-btn" id="pct75">75%</button>
+      <button class="pct-btn" id="pctFull">Full</button>
+    </div>
+    <div class="paid-bar">
+      <span style="font-weight:900;color:#166534;font-size:13px">Paid</span>
+      <span style="font-weight:900;color:#166534;font-size:18px" id="paidDisp">Rs.0.00</span>
+    </div>
+    <div class="due-bar">
+      <span style="font-weight:900;color:#DC2626;font-size:13px">Balance Due</span>
+      <span style="font-weight:900;color:#DC2626;font-size:20px" id="dueDisp">Rs.0.00</span>
+    </div>
+
+    <!-- DUE DATE -->
+    <div style="background:#2c1a1a;border-radius:10px;padding:12px;margin-top:10px;display:none" id="dueDateSection">
+      <div style="font-size:11px;color:#fca5a5;font-weight:900;text-transform:uppercase;margin-bottom:8px">&#128197; Outstanding Due Date</div>
+      <input class="inp" type="date" id="dueDate" style="font-size:16px;color:#fca5a5"/>
+      <div style="font-size:10px;color:#f87171;margin-top:4px;font-weight:700" id="dueDaysInfo"></div>
+    </div>
+  </div>
+  <div id="billAct" style="display:none">
+    <div class="btn2">
+      <button class="btn btn-am" style="margin:0" id="billImgBtn">Bill Image</button>
+      <button class="btn btn-bl" style="margin:0" id="billSaveBtn">Save Bill</button>
+    </div>
+    <button class="btn" style="margin-top:8px;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff" id="billWABtn">💬 Share Bill on WhatsApp (PDF)</button>
+    <button class="btn btn-rd" style="margin-top:8px" id="billClearBtn">Clear Bill</button>
+  </div>
+</div>
+
+<!-- PAGE 3: SAVED BILLS -->
+<div id="page3" class="page">
+  <div class="card" style="padding-bottom:10px">
+    <div class="card-title">Saved Bills</div>
+    <input class="inp" id="savedSearch" type="search" placeholder="Search name, mobile, bill no…" style="font-size:15px" oninput="renderSaved()"/>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+      <div><label style="font-size:11px;font-weight:900;color:#5C3D1E;display:block;margin-bottom:4px">From Date</label>
+        <input class="inp" id="savedFrom" type="date" style="font-size:14px" oninput="renderSaved()"/></div>
+      <div><label style="font-size:11px;font-weight:900;color:#5C3D1E;display:block;margin-bottom:4px">To Date</label>
+        <input class="inp" id="savedTo" type="date" style="font-size:14px" oninput="renderSaved()"/></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <button onclick="clearSavedFilters()" style="flex:1;padding:7px;background:#F5E6D3;color:#4A2515;border:2px solid #C4956A;border-radius:8px;font-weight:900;font-size:12px;cursor:pointer">Clear Filters</button>
+      <button onclick="exportBillsCSV()" style="flex:1;padding:7px;background:linear-gradient(135deg,#166534,#14532d);color:#fff;border:none;border-radius:8px;font-weight:900;font-size:12px;cursor:pointer">⬇ Export CSV</button>
+    </div>
+    <!-- Improvement G: bulk clear all saved bills -->
+    <button onclick="clearAllSavedBills()" style="width:100%;margin-top:8px;padding:7px;background:#FEE2E2;color:#DC2626;border:2px solid #DC2626;border-radius:8px;font-weight:900;font-size:12px;cursor:pointer">🗑 Clear All Saved Bills</button>
+  </div>
+  <div id="savedList"><div class="empty">No saved bills yet.</div></div>
+</div>
+
+<!-- PAGE 4: SETTINGS -->
+<div id="page4" class="page">
+  <div class="card">
+    <div class="card-title">🏪 Shop / Business Details</div>
+    <div class="note">These appear on every bill & session report PDF.</div>
+    <div class="fld"><label class="lbl">Shop Name</label><input class="inp" id="setShopName" placeholder="e.g. WOOD DEPOT (GPC GROUP)"/></div>
+    <div class="fld"><label class="lbl">Tagline / Sub-name</label><input class="inp" id="setTagline" placeholder="e.g. Wholesale & Retail Timber"/></div>
+    <div class="fld"><label class="lbl">Address Line 1</label><input class="inp" id="setAddr1" placeholder="e.g. Near Bus Stand, Bolangir, Odisha"/></div>
+    <div class="fld"><label class="lbl">Address Line 2 / Auth</label><input class="inp" id="setAddr2" placeholder="e.g. Authorised Dealer of OFDC Ltd"/></div>
+    <div class="fld"><label class="lbl">Mobile Number</label><input class="inp" id="setMob" placeholder="e.g. 9938967462" type="tel" inputmode="tel"/></div>
+    <div class="fld"><label class="lbl">GSTIN</label><input class="inp" id="setGSTIN" placeholder="e.g. 21ASGPC7358B1Z9" style="text-transform:uppercase"/></div>
+    <button class="btn btn-gn" id="saveSettings">💾 Save Settings</button>
+  </div>
+  <div class="card">
+    <div class="card-title">🪵 Rate Memory</div>
+    <div class="note">Last used rate per wood type — auto-filled on selection.</div>
+    <div id="rateMemoryList" style="font-size:13px;color:#5C3D1E;font-weight:700;line-height:2"></div>
+    <button class="btn btn-rd" style="margin-top:10px" id="clearRates">Clear Rate Memory</button>
+  </div>
+  <div class="card">
+    <div class="card-title">🚛 Driver Memory</div>
+    <div class="note">Vehicle No → Driver Name pairs saved for auto-fill.</div>
+    <div id="driverMemoryList" style="font-size:13px;color:#5C3D1E;font-weight:700;line-height:2"></div>
+    <button class="btn btn-rd" style="margin-top:10px" id="clearDrivers">Clear Driver Memory</button>
+  </div>
+  <!-- ── GOOGLE SHEETS SYNC CARD ── -->
+  <div class="card" style="border:2px solid #34A853">
+    <div class="card-title" style="color:#1a7a35">☁️ Google Sheets Cloud Sync</div>
+    <div class="note" style="background:#f0fdf4;border-left-color:#34A853;color:#166534">
+      Bills auto-sync to your Google Sheet. Works on any phone or computer. Offline bills queue and sync when internet returns.
+    </div>
+    <div class="fld">
+      <label class="lbl">Apps Script URL</label>
+      <input class="inp" id="setSyncUrl" placeholder="Paste your Web App URL here…" style="font-size:13px"/>
+      <div style="font-size:10px;color:#A07050;margin-top:3px;font-weight:700">From: Apps Script → Deploy → Web App URL</div>
+    </div>
+    <div class="fld">
+      <label class="lbl">Secret Key</label>
+      <input class="inp" id="setSyncKey" placeholder="e.g. WOODDEPOT2024" style="font-size:15px;text-transform:uppercase"/>
+      <div style="font-size:10px;color:#A07050;margin-top:3px;font-weight:700">Must match SECRET_KEY in your Apps Script</div>
+    </div>
+    <button class="btn btn-gn" id="saveSyncSettings" style="margin-top:6px">💾 Save Sync Settings</button>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+      <button class="btn btn-bl" style="margin:0;font-size:12px" id="btnTestSync">🔗 Test Connection</button>
+      <button class="btn" style="margin:0;font-size:12px;background:linear-gradient(135deg,#0F9D58,#0b7a44);color:#fff" id="btnSyncAll">⬆ Upload All Bills</button>
+    </div>
+    <button class="btn" style="margin-top:8px;font-size:12px;background:linear-gradient(135deg,#1a73e8,#1557b0);color:#fff" id="btnFetchCloud">⬇ Download from Cloud</button>
+    <!-- sync status bar -->
+    <div id="syncStatusBar" style="display:none;margin-top:10px;padding:10px 12px;border-radius:8px;font-size:12px;font-weight:900;text-align:center"></div>
+    <!-- offline queue badge -->
+    <div id="syncQueueInfo" style="margin-top:8px;font-size:11px;color:#D97706;font-weight:900;display:none"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💾 Data Backup & Restore</div>
+    <div class="note">Export all saved bills to a JSON file. Import to restore on another device.</div>
+    <div class="btn2">
+      <button class="btn btn-bl" style="margin:0" id="exportJSON">⬇ Export JSON</button>
+      <label class="btn btn-am" style="margin:0;display:flex;align-items:center;justify-content:center;cursor:pointer">
+        ⬆ Import JSON<input type="file" id="importJSONFile" accept=".json" style="display:none"/>
+      </label>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">ℹ App Info</div>
+    <div style="font-size:12px;color:#5C3D1E;font-weight:700;line-height:1.9">
+      <div>Version: <strong>v14</strong></div>
+      <div>Storage: localStorage (browser)</div>
+      <div>Works offline: ✅</div>
+      <div>PDF engine: jsPDF + canvas fallback</div>
+    </div>
+    <!-- WARN 1 fix: Storage usage indicator -->
+    <div style="margin-top:12px" id="storageUsageSection">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:11px;font-weight:900;color:#5C3D1E">💾 Storage Used</span>
+        <span style="font-size:11px;font-weight:900;color:#5C3D1E" id="storageUsageText">—</span>
+      </div>
+      <div style="background:#EDD9C0;border-radius:6px;height:10px;overflow:hidden">
+        <div id="storageUsageBar" style="height:100%;border-radius:6px;background:linear-gradient(90deg,#166534,#14532d);transition:width .4s;width:0%"></div>
+      </div>
+      <div style="font-size:10px;color:#A07050;margin-top:3px;font-weight:700" id="storageUsageHint"></div>
+    </div>
+  </div>
+</div>
+
+<div class="sticky" id="stickyBar" style="display:none">
+  <div>
+    <div style="font-size:9px;color:#C4956A;font-weight:900;text-transform:uppercase" id="stickyLabel">Session Total</div>
+    <div style="font-size:20px;font-weight:900;color:#FBBF24" id="stickyAmt">Rs.0.00</div>
+  </div>
+  <div style="text-align:right">
+    <div style="font-size:9px;color:#C4956A;font-weight:900;text-transform:uppercase">Items</div>
+    <div style="font-size:20px;font-weight:900;color:#fff" id="stickyCount">0</div>
+  </div>
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────
+var session = [];
+var bill    = [];
+var savedBills = [];
+var ptype   = 'sawn';
+var billCtr = parseInt(localStorage.getItem('wd_bc') || '1000');
+var _canvas = null; // live canvas reference for save/share/print/pdf
+var _fname  = null; // filename for current preview
+
+// ── SHOP SETTINGS (must be declared before loadSettings() is called) ─
+var shopSettings = {
+  shopName: 'WOOD DEPOT (GPC GROUP)',
+  tagline:  'Wholesale & Retail Timber',
+  addr1:    'Near Bus Stand, Bolangir, Odisha',
+  addr2:    'Authorised Dealer of OFDC Ltd, Odisha',
+  mob:      '9938967462',
+  gstin:    '21ASGPC7358B1Z9',
+  syncUrl:  '',   // Google Apps Script Web App URL
+  syncKey:  'WOODDEPOT2024'  // must match SECRET_KEY in Apps Script
+};
+
+// ── RATE MEMORY (must be declared before loadRateMemory() is called) ─
+var rateMemory = {};
+
+// M6 fix: handle paise properly — show "X Rupees and Y Paise Only" for non-whole amounts
+function numberToWords(n){
+  var rupees=Math.floor(n);
+  var paise=Math.round((n-rupees)*100);
+  if(n<0) return 'Negative Amount';
+  var ones=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine',
+    'Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+  var tens=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+  function h(num){
+    if(num===0) return '';
+    if(num<20) return ones[num]+' ';
+    if(num<100) return tens[Math.floor(num/10)]+' '+(num%10?ones[num%10]+' ':'');
+    return ones[Math.floor(num/100)]+' Hundred '+(num%100?h(num%100):'');
+  }
+  function inWords(num){
+    if(num===0) return 'Zero';
+    var result='';
+    var cr=Math.floor(num/10000000); num%=10000000;
+    var lac=Math.floor(num/100000); num%=100000;
+    var thou=Math.floor(num/1000); num%=1000;
+    var rest=num;
+    if(cr) result+=h(cr)+'Crore ';
+    if(lac) result+=h(lac)+'Lakh ';
+    if(thou) result+=h(thou)+'Thousand ';
+    if(rest) result+=h(rest);
+    return result.trim();
+  }
+  var words=inWords(rupees)+(rupees===1?' Rupee':' Rupees');
+  if(paise>0) words+=' and '+inWords(paise)+(paise===1?' Paisa':' Paise');
+  return words+' Only';
+}
+
+// ── CANVAS wrapText HELPER ──────────────────────────────────────────
+function canvasWrapText(ctx,text,x,y,maxWidth,lineHeight){
+  var words=text.split(' ');
+  var line='';
+  var lines=[];
+  for(var i=0;i<words.length;i++){
+    var test=line+(line?' ':'')+words[i];
+    if(ctx.measureText(test).width>maxWidth&&line!==''){
+      lines.push(line); line=words[i];
+    } else { line=test; }
+  }
+  if(line) lines.push(line);
+  lines.forEach(function(l,idx){ ctx.fillText(l,x,y+idx*lineHeight); });
+  return lines.length;
+}
+
+// ── PERSISTENCE HELPERS ────────────────────────────────────────────
+function saveState(){
+  try{
+    localStorage.setItem('wd_session', JSON.stringify(session));
+    localStorage.setItem('wd_bill',    JSON.stringify(bill));
+    localStorage.setItem('wd_saved',   JSON.stringify(savedBills));
+    // Bug 2 fix: added discountAmt, discountType, gstRate, gstType to saved fields
+    // vehFrom intentionally excluded — always fixed to 'CHOUDWAR, CUTTACK', restored in loadState
+    var textFields=['custName','custMob','custAddr','paidAmt','transportAmt','loadingAmt',
+                    'dueDate','vehNo','vehDriver','vehTo','woodType','pName',
+                    'discountAmt','discountType','gstRate','gstType'];
+    var fd={};
+    textFields.forEach(function(id){ var el=document.getElementById(id); if(el) fd[id]=el.value; });
+    // Bug 3 fix: save checkbox .checked state as boolean, not .value
+    fd['gstToggle__chk'] = !!(document.getElementById('gstToggle') && document.getElementById('gstToggle').checked);
+    localStorage.setItem('wd_billform', JSON.stringify(fd));
+    localStorage.setItem('wd_ptype', ptype);
+  }catch(e){
+    // QuotaExceededError — storage full, warn the user
+    if(e && (e.name==='QuotaExceededError'||e.name==='NS_ERROR_DOM_QUOTA_REACHED'||e.code===22)){
+      toast('\u26a0 Storage full! Old saved bills may need to be deleted.',false);
+    }
+  }
+}
+function loadState(){
+  try{
+    var s=localStorage.getItem('wd_session'); if(s) session=JSON.parse(s);
+    var b=localStorage.getItem('wd_bill');    if(b) bill=JSON.parse(b);
+    var sv=localStorage.getItem('wd_saved');  if(sv) savedBills=JSON.parse(sv);
+    var fd=localStorage.getItem('wd_billform');
+    if(fd){
+      var fields=JSON.parse(fd);
+      Object.keys(fields).forEach(function(id){
+        // Bug 3 fix: restore checkbox .checked from the __chk-suffixed boolean key
+        if(id.slice(-5)==='__chk'){
+          var cbId=id.slice(0,-5);
+          var cbEl=document.getElementById(cbId);
+          if(cbEl){ cbEl.checked=!!fields[id]; }
+          // Sync gstFields visibility immediately after restoring the toggle
+          if(cbId==='gstToggle'){
+            var gf=document.getElementById('gstFields');
+            if(gf) gf.style.display=(cbEl&&cbEl.checked)?'block':'none';
+          }
+        } else {
+          var el=document.getElementById(id);
+          if(el) el.value=fields[id]||'';
+        }
+      });
+    }
+    var pt=localStorage.getItem('wd_ptype'); if(pt) ptype=pt;
+    // Always restore fixed origin regardless of what was stored
+    var vfEl=document.getElementById('vehFrom');
+    if(vfEl) vfEl.value='CHOUDWAR, CUTTACK';
+  }catch(e){ session=[]; bill=[]; savedBills=[]; }
+}
+loadState();
+loadSettings();
+loadRateMemory();
+// Restore product type panel (setPtype is hoisted — safe to call here)
+var _ptypeToRestore=ptype;
+
+// ── RECONCILE billCtr ──────────────────────────────────────────────
+// If localStorage was cleared, billCtr may be lower than highest saved bill.
+// Derive true max from savedBills so next bill number is always unique.
+if(savedBills.length){
+  var maxFromSaved=savedBills.reduce(function(mx,b){
+    var n=parseInt((b.billNo||'').replace(/\D/g,''))||0;
+    return n>mx?n:mx;
+  },0);
+  if(maxFromSaved>=billCtr) billCtr=maxFromSaved+1; // always assign a fresh, never-used number
+}
+
+document.getElementById('billNo').value   = 'WD-' + billCtr;
+// Use ISO format (YYYY-MM-DD) for date input compatibility
+var _today=new Date(); var _mm=String(_today.getMonth()+1).padStart(2,'0'); var _dd=String(_today.getDate()).padStart(2,'0');
+document.getElementById('billDate').value = _today.getFullYear()+'-'+_mm+'-'+_dd;
+// Apply saved product type (ptype restored by loadState; setPtype hoisted)
+setPtype(_ptypeToRestore);
+
+// ── SETTINGS ───────────────────────────────────────────────────────
+function loadSettings(){
+  try{
+    var s=localStorage.getItem('wd_settings');
+    if(s) shopSettings=Object.assign(shopSettings,JSON.parse(s));
+  }catch(e){}
+  ['shopName','tagline','addr1','addr2','mob','gstin'].forEach(function(k){
+    var el=v('set'+k.charAt(0).toUpperCase()+k.slice(1));
+    if(el) el.value=shopSettings[k]||'';
+  });
+  // load sync fields
+  var su=v('setSyncUrl'); if(su) su.value=shopSettings.syncUrl||'';
+  var sk=v('setSyncKey'); if(sk) sk.value=shopSettings.syncKey||'WOODDEPOT2024';
+}
+function saveSettings(){
+  shopSettings.shopName=v('setShopName').value.trim()||shopSettings.shopName;
+  shopSettings.tagline =v('setTagline').value.trim()||shopSettings.tagline;
+  shopSettings.addr1   =v('setAddr1').value.trim()||shopSettings.addr1;
+  shopSettings.addr2   =v('setAddr2').value.trim()||shopSettings.addr2;
+  shopSettings.mob     =v('setMob').value.trim()||shopSettings.mob;
+  shopSettings.gstin   =(v('setGSTIN').value.trim()||shopSettings.gstin).toUpperCase();
+  try{ localStorage.setItem('wd_settings',JSON.stringify(shopSettings)); }catch(e){}
+  toast('Settings saved ✓');
+}
+function saveSyncSettings(){
+  shopSettings.syncUrl=(v('setSyncUrl').value.trim());
+  shopSettings.syncKey=(v('setSyncKey').value.trim().toUpperCase())||'WOODDEPOT2024';
+  try{ localStorage.setItem('wd_settings',JSON.stringify(shopSettings)); }catch(e){}
+  toast('Sync settings saved ✓');
+  updateSyncQueueInfo();
+}
+v('saveSettings').addEventListener('click',saveSettings);
+v('saveSyncSettings').addEventListener('click',saveSyncSettings);
+
+// ── STORAGE USAGE INDICATOR (WARN 1 fix) ──────────────────────────
+function renderStorageUsage(){
+  try{
+    // Estimate total localStorage usage by summing all key lengths
+    var total=0;
+    for(var k in localStorage){
+      if(Object.prototype.hasOwnProperty.call(localStorage,k)){
+        total+=((localStorage.getItem(k)||'').length+(k||'').length)*2; // UTF-16: 2 bytes/char
+      }
+    }
+    var usedKB=Math.round(total/1024);
+    var maxKB=5*1024; // 5 MB
+    var pct=Math.min(100,Math.round(total/maxKB/10.24)); // percentage of 5MB
+    var bar=v('storageUsageBar');
+    var txt=v('storageUsageText');
+    var hint=v('storageUsageHint');
+    if(!bar||!txt) return;
+    txt.textContent=usedKB+' KB / 5,120 KB';
+    bar.style.width=pct+'%';
+    bar.style.background=pct>=90?'linear-gradient(90deg,#DC2626,#b91c1c)':pct>=80?'linear-gradient(90deg,#D97706,#B45309)':'linear-gradient(90deg,#166534,#14532d)';
+    if(pct>=90){ hint.textContent='⚠ Storage almost full! Export a backup immediately.'; hint.style.color='#DC2626'; }
+    else if(pct>=80){ hint.textContent='⚠ Storage at '+pct+'% — consider exporting a backup.'; hint.style.color='#D97706'; }
+    else { hint.textContent=pct+'% used — approx. '+Math.floor((maxKB-usedKB*1024)/726)+' more bills before limit.'; hint.style.color='#A07050'; }
+  }catch(e){}
+}
+
+// ══════════════════════════════════════════════════════════════════
+//  GOOGLE SHEETS CLOUD SYNC ENGINE
+// ══════════════════════════════════════════════════════════════════
+
+// Offline queue — bills that failed to sync (no internet) wait here
+var syncQueue = [];
+(function(){
+  try{ var q=localStorage.getItem('wd_syncq'); if(q) syncQueue=JSON.parse(q); }catch(e){} 
+})();
+function saveSyncQueue(){ try{ localStorage.setItem('wd_syncq',JSON.stringify(syncQueue)); }catch(e){} }
+
+function syncEnabled(){ return !!(shopSettings.syncUrl && shopSettings.syncKey); }
+
+function setSyncStatus(msg, ok){
+  var bar=v('syncStatusBar');
+  if(!bar) return;
+  bar.style.display='block';
+  bar.textContent=msg;
+  bar.style.background=ok===false?'#FEE2E2':ok===true?'#DCFCE7':'#FEF3C7';
+  bar.style.color=ok===false?'#DC2626':ok===true?'#166534':'#92400E';
+}
+
+function updateSyncQueueInfo(){
+  var el=v('syncQueueInfo');
+  if(!el) return;
+  if(syncQueue.length>0){
+    el.style.display='block';
+    el.textContent='⏳ '+syncQueue.length+' bill'+(syncQueue.length>1?'s':'')+' waiting to sync when online';
+  } else {
+    el.style.display='none';
+  }
+}
+
+// ── Core fetch helpers for Apps Script (CORS fix) ───────────────────
+// Rules that make Google Apps Script CORS work from a local HTML file:
+//   1. No Content-Type header on POST → avoids CORS preflight
+//   2. redirect:"follow" → follows the 302 redirect Apps Script sends
+//   3. GET uses URL params only (simple request, no preflight)
+function gasPost(payload, onDone){
+  fetch(shopSettings.syncUrl, {
+    method: "POST",
+    redirect: "follow",
+    body: payload
+  })
+  .then(function(r){ return r.text(); })
+  .then(function(txt){
+    try{
+      var data=JSON.parse(txt);
+      if(data.ok){ onDone(true, data); }
+      else { onDone(false, data.error||"Server error"); }
+    } catch(e){ onDone(false, "Bad response: "+txt.slice(0,80)); }
+  })
+  .catch(function(err){ onDone(false, err.message); });
+}
+function gasGet(params, onDone){
+  var url=shopSettings.syncUrl+"?key="+encodeURIComponent(shopSettings.syncKey);
+  if(params) Object.keys(params).forEach(function(k){ url+="&"+k+"="+encodeURIComponent(params[k]); });
+  fetch(url, { redirect:"follow" })
+  .then(function(r){ return r.text(); })
+  .then(function(txt){
+    try{
+      var data=JSON.parse(txt);
+      onDone(true, data);
+    } catch(e){ onDone(false, "Bad response: "+txt.slice(0,80)); }
+  })
+  .catch(function(err){ onDone(false, err.message); });
+}
+
+// POST a single bill to Google Sheets
+function syncBillToCloud(snapshot, onDone){
+  if(!syncEnabled()) return;
+  var payload=JSON.stringify({ key: shopSettings.syncKey, action:"save", bill: snapshot });
+  gasPost(payload, function(ok, data){
+    if(onDone) onDone(ok, ok?null:data);
+  });
+}
+
+// Called after every bill save — tries to sync, queues if offline
+function autoSyncBill(snapshot){
+  if(!syncEnabled()) return;
+  if(!navigator.onLine){
+    syncQueue.push(snapshot);
+    saveSyncQueue();
+    updateSyncQueueInfo();
+    toast('📶 Offline — bill queued for sync when online');
+    return;
+  }
+  syncBillToCloud(snapshot, function(ok, err){
+    if(ok){
+      toast('☁️ Synced to Google Sheets ✓');
+    } else {
+      // Push to queue so it retries later
+      syncQueue.push(snapshot);
+      saveSyncQueue();
+      updateSyncQueueInfo();
+      toast('⚠ Sync failed — queued for retry', false);
+    }
+  });
+}
+
+// Flush the offline queue when internet returns
+function flushSyncQueue(){
+  if(!syncEnabled()||!syncQueue.length||!navigator.onLine) return;
+  var queue=syncQueue.slice();
+  syncQueue=[];
+  saveSyncQueue();
+  updateSyncQueueInfo();
+  var i=0;
+  function next(){
+    if(i>=queue.length){ toast('☁️ '+queue.length+' queued bill'+(queue.length>1?'s':'')+' synced ✓'); return; }
+    syncBillToCloud(queue[i], function(ok){
+      if(!ok){ syncQueue.push(queue[i]); saveSyncQueue(); updateSyncQueueInfo(); }
+      i++; next();
+    });
+  }
+  next();
+}
+window.addEventListener('online', flushSyncQueue);
+
+// Test connection button
+v('btnTestSync').addEventListener('click',function(){
+  if(!syncEnabled()){ setSyncStatus('⚠ Enter URL and Secret Key above, then save.',false); return; }
+  setSyncStatus('🔄 Testing connection…','pending');
+  gasGet({test:'1'}, function(ok, data){
+    if(ok && data && data.ok){
+      setSyncStatus('✅ Connected! '+( data.message||'Google Sheets is working.'),true);
+    } else {
+      setSyncStatus('❌ Connection failed: '+(data||'unknown error'),false);
+    }
+  });
+});
+
+// Upload all local bills to cloud
+v('btnSyncAll').addEventListener('click',function(){
+  if(!syncEnabled()){ setSyncStatus('⚠ Enter and save your URL and Key first.',false); return; }
+  if(!savedBills.length){ setSyncStatus('No saved bills to upload.',false); return; }
+  setSyncStatus('⬆ Uploading '+savedBills.length+' bills to Google Sheets…','pending');
+  var payload=JSON.stringify({ key:shopSettings.syncKey, action:'syncAll', bills:savedBills });
+  gasPost(payload, function(ok, data){
+    if(ok && data){ setSyncStatus('✅ Uploaded '+data.total+' bills ('+data.saved+' new) to Google Sheets.',true); }
+    else { setSyncStatus('❌ Upload failed: '+(data||'unknown error'),false); }
+  });
+});
+
+// Download bills from cloud and merge into local
+v('btnFetchCloud').addEventListener('click',function(){
+  if(!syncEnabled()){ setSyncStatus('⚠ Enter and save your URL and Key first.',false); return; }
+  setSyncStatus('⬇ Fetching bills from Google Sheets…','pending');
+  gasGet({}, function(ok, data){
+    if(!ok){ setSyncStatus('❌ Fetch failed: '+(data||'unknown'),false); return; }
+    var cloudBills=(data&&data.bills)||[];
+    if(!cloudBills.length){ setSyncStatus('✅ Connected — cloud sheet has 0 bills yet.',true); return; }
+    var existingNos=new Set(savedBills.map(function(b){return b.billNo;}));
+    var added=0;
+    cloudBills.forEach(function(b){
+      if(!existingNos.has(b.billNo)){ savedBills.unshift(b); added++; }
+    });
+    savedBills.sort(function(a,b2){ return (b2.savedAt||0)-(a.savedAt||0); });
+    saveState();
+    v('svBadge').textContent=savedBills.length;
+    renderSaved();
+    setSyncStatus('✅ Downloaded '+cloudBills.length+' bills ('+added+' new added locally).',true);
+  });
+});
+
+// ── RATE MEMORY ────────────────────────────────────────────────────
+function loadRateMemory(){
+  try{ var r=localStorage.getItem('wd_rates'); if(r) rateMemory=JSON.parse(r); }catch(e){}
+}
+function saveRateMemory(woodType, rate, unit){
+  if(!rate||rate<=0) return;
+  rateMemory[woodType]=rate;
+  if(unit) rateMemory[woodType+'__unit']=unit; // store 'qtl' or 'cft'
+  try{
+    localStorage.setItem('wd_rates',JSON.stringify(rateMemory));
+  }catch(e){
+    // M4 fix: notify user if storage fails
+    toast('⚠ Could not save rate — storage may be full',false);
+  }
+}
+function renderRateMemory(){
+  var keys=Object.keys(rateMemory);
+  var el=v('rateMemoryList');
+  if(!keys.length){ el.innerHTML='<div style="color:#A07050">No rates saved yet.</div>'; return; }
+  // C4 fix: show correct unit — firewood types use /Qtl, timber uses /CFT
+  // Firewood wood types stored with a 'fw:' prefix internally to distinguish
+  el.innerHTML=keys.map(function(k){
+    var unit=rateMemory[k+'__unit']==='qtl'?'Qtl':'CFT';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #EDD9C0">'+
+      '<span>'+k+'</span><strong>'+Rs(rateMemory[k])+' / '+unit+'</strong></div>';
+  }).filter(function(html){ return html.indexOf('__unit')===-1; }).join('');
+  // re-render cleanly without __unit meta-keys appearing
+  var displayKeys=keys.filter(function(k){ return k.slice(-6)!=='__unit'; });
+  el.innerHTML=displayKeys.map(function(k){
+    var unit=rateMemory[k+'__unit']==='qtl'?'Qtl':'CFT';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #EDD9C0">'+
+      '<span style="color:#5C3D1E">'+k+'</span><strong>'+Rs(rateMemory[k])+' / '+unit+'</strong></div>';
+  }).join('');
+  if(!displayKeys.length) el.innerHTML='<div style="color:#A07050">No rates saved yet.</div>';
+}
+v('clearRates').addEventListener('click',function(){
+  customConfirm('Clear all saved rate memory?',function(){
+    rateMemory={};
+    try{ localStorage.removeItem('wd_rates'); }catch(e){}
+    renderRateMemory(); toast('Rate memory cleared');
+  });
+});
+
+// ── DRIVER MEMORY ──────────────────────────────────────────────────
+// BUG 5 fix: declared HERE (before renderDriverMemory & clearDrivers listeners)
+// to avoid relying on var-hoisting where the variable exists but is undefined.
+var driverMemory = {};
+(function(){
+  try{ var d=localStorage.getItem('wd_drivers'); if(d) driverMemory=JSON.parse(d); }catch(e){}
+})();
+
+// ── DRIVER MEMORY UI ───────────────────────────────────────────────
+function renderDriverMemory(){
+  var el=v('driverMemoryList');
+  if(!el) return;
+  var keys=Object.keys(driverMemory);
+  if(!keys.length){ el.innerHTML='<div style="color:#A07050">No drivers saved yet.</div>'; return; }
+  el.innerHTML=keys.map(function(k){
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #EDD9C0">'+
+      '<span style="color:#5C3D1E">'+escHtml(k)+' → <strong>'+escHtml(driverMemory[k])+'</strong></span>'+
+      '<button onclick="deleteDriverMemory(\''+escHtml(k).replace(/'/g,"&#39;")+'\')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:6px;padding:2px 8px;font-size:12px;font-weight:900;cursor:pointer">✕</button>'+
+      '</div>';
+  }).join('');
+}
+function deleteDriverMemory(key){
+  delete driverMemory[key];
+  try{ localStorage.setItem('wd_drivers',JSON.stringify(driverMemory)); }catch(e){}
+  renderDriverMemory(); toast('Driver entry removed');
+}
+v('clearDrivers').addEventListener('click',function(){
+  customConfirm('Clear all saved driver memory?',function(){
+    driverMemory={};
+    try{ localStorage.removeItem('wd_drivers'); }catch(e){}
+    renderDriverMemory(); toast('Driver memory cleared');
+  });
+});
+function saveDriverMemory(vehNo, driverName){
+  if(!vehNo||!driverName) return;
+  driverMemory[vehNo.toUpperCase()]=driverName;
+  try{
+    localStorage.setItem('wd_drivers',JSON.stringify(driverMemory));
+  }catch(e){
+    // M4 fix: notify user if storage is full
+    toast('⚠ Could not save driver — storage may be full',false);
+  }
+}
+
+// ── VEHICLE NO input handler ────────────────────────────────────────
+// 1. Force uppercase every keystroke
+// 2. Auto-fill driver name from memory when recognised
+// 3. Show a hint if driver was auto-filled
+v('vehNo').addEventListener('input', function(){
+  // Force uppercase (CSS text-transform only affects display; value stays lowercase without this)
+  var pos = this.selectionStart;
+  this.value = this.value.toUpperCase();
+  try{ this.setSelectionRange(pos, pos); }catch(e){}
+
+  var hint = v('driverAutoHint');
+  var key  = this.value.trim();
+  if(key && driverMemory[key]){
+    // Only auto-fill if driver field is empty or matches previous auto-fill
+    var curDriver = v('vehDriver').value.trim();
+    if(!curDriver || curDriver === (driverMemory[key]||'')){
+      v('vehDriver').value = driverMemory[key];
+      if(hint){
+        hint.textContent = '✓ Driver auto-filled from memory';
+        hint.style.display = 'block';
+        // fade hint after 3 s
+        clearTimeout(hint._t);
+        hint._t = setTimeout(function(){ hint.style.display='none'; }, 3000);
+      }
+    }
+  } else {
+    if(hint) hint.style.display = 'none';
+  }
+  saveState();
+});
+
+// ── VEHICLE TO input → force uppercase ────────────────────────────
+v('vehTo').addEventListener('input', function(){
+  var pos = this.selectionStart;
+  this.value = this.value.toUpperCase();
+  try{ this.setSelectionRange(pos, pos); }catch(e){}
+  saveState();
+});
+
+// ── Lock vehFrom to CHOUDWAR, CUTTACK ─────────────────────────────
+// Guard against programmatic clears (e.g. billClearBtn, billSaveBtn)
+// by overriding value in an input listener
+v('vehFrom').addEventListener('input', function(){
+  this.value = 'CHOUDWAR, CUTTACK';
+});
+
+// ── Save driver name to memory when driver field loses focus ───────
+v('vehDriver').addEventListener('blur', function(){
+  var vno = v('vehNo').value.trim().toUpperCase();
+  var drv = this.value.trim();
+  if(vno && drv) saveDriverMemory(vno, drv);
+  saveState();
+});
+
+// Apply rate memory when wood type changes
+v('woodType').addEventListener('change',function(){
+  var wt=this.value;
+  if(rateMemory[wt]){
+    if(ptype==='sawn'     &&!fv('sRate')) v('sRate').value=rateMemory[wt];
+    if(ptype==='round'    &&!fv('rRate')) v('rRate').value=rateMemory[wt];
+    // Improvement B: firewood rate memory was saved but never recalled — fixed
+    if(ptype==='firewood' &&!fv('fRate')) v('fRate').value=rateMemory[wt];
+  }
+});
+
+// ── JSON EXPORT / IMPORT ────────────────────────────────────────────
+v('exportJSON').addEventListener('click',function(){
+  if(!savedBills.length){toast('No saved bills to export.',false);return;}
+  var data=JSON.stringify({savedBills:savedBills,exportedAt:new Date().toISOString()},null,2);
+  var blob=new Blob([data],{type:'application/json'});
+  var fname='WoodDepot_Backup_'+new Date().toISOString().slice(0,10)+'.json';
+  iosAwareDownload(blob,fname,'application/json');
+  toast('Exported '+savedBills.length+' bills ✓');
+});
+v('importJSONFile').addEventListener('change',function(e){
+  var file=e.target.files[0]; if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      var data=JSON.parse(ev.target.result);
+      if(!data.savedBills||!Array.isArray(data.savedBills)){toast('Invalid backup file',false);return;}
+      // Bug 4 fix: deduplicate by billNo so re-importing the same backup never doubles entries
+      var existingNos=new Set(savedBills.map(function(b){return b.billNo;}));
+      var toImport=data.savedBills.filter(function(b){return !existingNos.has(b.billNo);});
+      var skipped=data.savedBills.length-toImport.length;
+      customConfirm('Import '+toImport.length+' new bills?'+(skipped?' ('+skipped+' duplicate bill numbers skipped)':'')+' This will MERGE with existing saved bills.',function(){
+        toImport.forEach(function(b){ savedBills.unshift(b); });
+        saveState(); renderSaved(); v('svBadge').textContent=savedBills.length;
+        toast('Imported '+toImport.length+' bills'+(skipped?' ('+skipped+' skipped — duplicates)':'')+' ✓');
+      });
+    }catch(err){ toast('Failed to parse file: '+err.message,false); }
+  };
+  reader.readAsText(file);
+  this.value='';
+});
+
+// ── iOS-AWARE DOWNLOAD ──────────────────────────────────────────────
+var _isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+function iosAwareDownload(blob,fname,mimeType){
+  // On iOS, <a download> is blocked. Use Web Share API if available, else open blob in new tab.
+  if(_isIOS){
+    var file=new File([blob],fname,{type:mimeType||blob.type});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){
+      navigator.share({title:fname,files:[file]}).catch(function(err){
+        if(err.name!=='AbortError') openBlobTab(blob,fname);
+      });
+      return;
+    }
+    openBlobTab(blob,fname);
+    return;
+  }
+  // Non-iOS: standard anchor download
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url; a.download=fname;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); },10000);
+}
+function openBlobTab(blob,fname){
+  var url=URL.createObjectURL(blob);
+  var w=window.open(url,'_blank');
+  if(!w) toast('Allow popups to open file',false);
+  else toast(_isIOS?'Tap Share → Save to Files / Save Image':'Opened in new tab — save from there');
+  setTimeout(function(){ URL.revokeObjectURL(url); },60000);
+}
+
+// ── WHATSAPP SHARE ──────────────────────────────────────────────────
+function buildWAText(){
+  var SEP='━━━━━━━━━━━━━━━━━━━━━━━━';
+
+  // Bill fields
+  var billNo  = v('billNo').value;
+  var rawDate = v('billDate').value;
+  var billDate= rawDate ? (function(){ var p=rawDate.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; })() : '';
+
+  // Customer
+  var custName = v('custName').value.trim()||'—';
+  var custMob  = normMob(v('custMob').value)||'';
+  var custAddr = v('custAddr').value.trim()||'—';
+
+  // Vehicle
+  var vehNo    = v('vehNo').value.trim();
+  var vehDriver= v('vehDriver').value.trim();
+  var vehFrom  = v('vehFrom').value.trim();
+  var vehTo    = v('vehTo').value.trim();
+  // C3 fix: vehFrom always "CHOUDWAR, CUTTACK" — only show vehicle block when user filled VehNo/Driver/Destination
+  var hasVeh   = !!(vehNo||vehDriver||vehTo);
+
+  // Amounts
+  var gt       = bill.reduce(function(s,e){return s+e.amt;},0);
+  var tr       = parseFloat(v('transportAmt').value)||0;
+  var ld       = parseFloat(v('loadingAmt').value)||0;
+  var subTotal = gt+tr+ld;
+  var disc     = calcDiscountAmt(subTotal);
+  var gstEnabled = v('gstToggle').checked;
+  var gstRateVal = parseFloat(v('gstRate').value)||12;
+  var gstTypeVal = v('gstType').value;
+  var gstAmt   = calcGSTTotal(subTotal-disc);
+  var finalTotal = subTotal-disc+gstAmt;
+  var paid     = parseFloat(v('paidAmt').value)||0;
+  var due      = Math.max(0,finalTotal-paid);
+
+  // Due date
+  var dueDateRaw = v('dueDate').value;
+  var dueDateStr = '';
+  var dueDaysStr = '';
+  if(dueDateRaw && due>0){
+    var dp=dueDateRaw.split('-');
+    dueDateStr=dp[2]+'/'+dp[1]+'/'+dp[0];
+    var dLocal=new Date(+dp[0],+dp[1]-1,+dp[2]);
+    var dToday=new Date(); dToday.setHours(0,0,0,0);
+    var diff=Math.round((dLocal-dToday)/(1000*60*60*24));
+    dueDaysStr=diff>0?' ('+diff+' days)':diff===0?' (Due Today!)':' (Overdue '+Math.abs(diff)+'d)';
+  }
+
+  var lines=[];
+
+  // ── HEADER ──
+  lines.push(SEP);
+  lines.push('🪵 *'+shopSettings.shopName+'*');
+  lines.push('📍 '+shopSettings.addr1);
+  lines.push('📞 '+shopSettings.mob);
+  if(shopSettings.gstin) lines.push('🔖 GSTIN: '+shopSettings.gstin);
+  lines.push(SEP);
+  lines.push('');
+
+  // ── BILL META ──
+  lines.push('📄 *BILL / INVOICE*');
+  lines.push(SEP);
+  lines.push('🔢 Bill No  : *'+billNo+'*');
+  lines.push('📅 Date     : '+billDate);
+  lines.push(SEP);
+  lines.push('');
+
+  // ── CUSTOMER ──
+  lines.push('👤 *CUSTOMER DETAILS*');
+  lines.push('Name    : '+custName);
+  if(custMob) lines.push('Mobile  : '+custMob);
+  lines.push('Address : '+custAddr);
+
+  // ── VEHICLE ──
+  if(hasVeh){
+    lines.push('');
+    lines.push('🚛 *VEHICLE DETAILS*');
+    if(vehNo)               lines.push('Veh No  : '+vehNo);
+    if(vehDriver)           lines.push('Driver  : '+vehDriver);
+    if(vehFrom||vehTo)      lines.push('Route   : '+(vehFrom||'?')+' → '+(vehTo||'?'));
+  }
+  lines.push(SEP);
+  lines.push('');
+
+  // ── ITEMS ──
+  lines.push('📦 *ITEMS*');
+  lines.push('');
+  bill.forEach(function(e,i){
+    var typeLbl = e.type==='sawn'?'Sawn Timber':e.type==='round'?'Round Log':'Fire Wood';
+    lines.push('*'+(i+1)+'. '+e.name+' ('+typeLbl+')*');
+
+    if(e.type==='sawn'){
+      lines.push('   📐 '+e.w+'" × '+e.t+'" × '+e.l+'ft × '+e.pcs+' pcs');
+      lines.push('   📊 Total CFT : '+e.tcft.toFixed(3));
+      lines.push('   💰 Rate      : '+Rs(e.rate)+'/CFT');
+    } else if(e.type==='round'){
+      lines.push('   📐 Girth: '+e.g+'" × Len: '+e.l+'ft × '+e.pcs+' logs');
+      lines.push('   📊 Total CFT : '+e.tcft.toFixed(3));
+      lines.push('   💰 Rate      : '+Rs(e.rate)+'/CFT');
+    } else {
+      lines.push('   📐 '+e.kg+'kg × '+e.pcs+' loads');
+      lines.push('   📊 Total Qtl : '+e.tq.toFixed(3));
+      lines.push('   💰 Rate      : '+Rs(e.rate)+'/Qtl');
+    }
+    lines.push('   💵 Amount    : *'+Rs(e.amt)+'*');
+    lines.push('');
+  });
+
+  // ── PAYMENT SUMMARY ──
+  lines.push(SEP);
+  lines.push('📊 *PAYMENT SUMMARY*');
+  lines.push(SEP);
+  lines.push('Items Sub-Total  : '+Rs(gt));
+  if(tr>0) lines.push('🚛 Transport     : '+Rs(tr));
+  if(ld>0) lines.push('🏗 Loading       : '+Rs(ld));
+  if(disc>0) lines.push('🏷 Discount      : - '+Rs(disc));
+  if(gstEnabled && gstAmt>0){
+    if(gstTypeVal==='cgst_sgst'){
+      lines.push('🧾 CGST ('+(gstRateVal/2)+'%)     : '+Rs(gstAmt/2));
+      lines.push('🧾 SGST ('+(gstRateVal/2)+'%)     : '+Rs(gstAmt/2));
+    } else {
+      lines.push('🧾 IGST ('+gstRateVal+'%)      : '+Rs(gstAmt));
+    }
+  }
+  lines.push(SEP);
+  lines.push('💰 *GRAND TOTAL  : '+Rs(finalTotal)+'*');
+  lines.push(SEP);
+  lines.push('✅ Amount Paid   : '+Rs(paid));
+  lines.push((due>0?'🔴':'🟢')+' *Balance Due  : '+Rs(due)+'*');
+  if(due>0 && dueDateStr){
+    lines.push('📅 Due Date      : '+dueDateStr+dueDaysStr);
+  }
+  lines.push(SEP);
+  lines.push('');
+
+  // ── AMOUNT IN WORDS ──
+  lines.push('💬 _Amount in Words:_');
+  // wrap words into 2 lines of ~40 chars each
+  var words='_Rupees '+numberToWords(finalTotal)+'_';
+  var midpoint=Math.floor(words.length/2);
+  // find nearest space to midpoint
+  var splitAt=words.lastIndexOf(' ',midpoint);
+  if(splitAt<10) splitAt=words.indexOf(' ',midpoint);
+  if(splitAt>0&&words.length>50){
+    lines.push(words.slice(0,splitAt));
+    lines.push(words.slice(splitAt+1));
+  } else {
+    lines.push(words);
+  }
+  lines.push('');
+
+  // ── FOOTER ──
+  lines.push(SEP);
+  lines.push('🙏 *Thank you for your business!*');
+  lines.push('_Goods once sold are not returnable._');
+  lines.push('_For queries call: '+shopSettings.mob+'_');
+  lines.push(SEP);
+
+  return lines.join('\n');
+}
+// ── WHATSAPP: Share PDF bill + text via native OS share sheet ───────
+v('billWABtn').addEventListener('click',function(){
+  if(!bill.length){toast('No bill items!',false);return;}
+  debounceBtn(this,4000); // M3 fix: prevent double-tap during async PDF build
+  var n=v('custName').value.trim(),m=normMob(v('custMob').value),a=v('custAddr').value.trim();
+  if(!n||!a||!isValidMob(m)){toast('Fill valid customer details first',false);return;}
+
+  var waText=buildWAText();
+  var billNoVal=v('billNo').value;
+
+  // Can the browser share files at all?
+  var canShareFiles=!!(navigator.share&&navigator.canShare);
+
+  if(!canShareFiles){
+    // Browser doesn't support file sharing — send text-only via wa.me link
+    _waOpenText(m,waText);
+    return;
+  }
+
+  // Build PDF then share via OS share sheet
+  showLoader('Building bill PDF…');
+  setTimeout(function(){
+    try{
+      var canvas=buildBillCanvas();
+      var pages=canvas._pages||[canvas];
+      var jsPDF=window.jspdf&&window.jspdf.jsPDF;
+
+      if(jsPDF){
+        // ── Path A: proper PDF ──────────────────────────────────────
+        var pdf=new jsPDF({orientation:'portrait',unit:'pt',format:'a4'});
+        var A4W=595.28,A4H=841.89;
+        function addPg(idx){
+          if(idx>=pages.length){
+            hideLoader();
+            var pdfBlob=pdf.output('blob');
+            var pdfFile=new File([pdfBlob],'WoodDepot_Bill_'+billNoVal+'.pdf',{type:'application/pdf'});
+            _waShareFile(pdfFile,waText,m);
+            return;
+          }
+          var sc=document.createElement('canvas');
+          sc.width=794;sc.height=1123;
+          sc.getContext('2d').drawImage(pages[idx],0,0,794,1123);
+          sc.toBlob(function(blob){
+            var rd=new FileReader();
+            rd.onload=function(){
+              if(idx>0) pdf.addPage();
+              pdf.addImage(rd.result,'JPEG',0,0,A4W,A4H,undefined,'FAST');
+              addPg(idx+1);
+            };
+            rd.readAsDataURL(blob);
+          },'image/jpeg',0.92);
+        }
+        addPg(0);
+      } else {
+        // ── Path B: jsPDF unavailable — share first page as PNG ────
+        hideLoader();
+        pages[0].toBlob(function(blob){
+          var imgFile=new File([blob],'WoodDepot_Bill_'+billNoVal+'.png',{type:'image/png'});
+          _waShareFile(imgFile,waText,m);
+        },'image/png');
+      }
+    }catch(err){
+      hideLoader();
+      toast('Error building bill: '+err.message,false);
+    }
+  },80);
+});
+
+// Share a file (PDF/PNG) via OS share sheet so user can pick WhatsApp.
+// Falls back to wa.me text-only link if files can't be shared.
+function _waShareFile(file,text,mob){
+  if(navigator.canShare({files:[file]})){
+    navigator.share({
+      title:'Wood Depot Bill',
+      text:text,
+      files:[file]
+    }).then(function(){
+      toast('Bill shared ✓');
+    }).catch(function(err){
+      if(err.name!=='AbortError'){
+        // Share API failed — open WhatsApp text-only as fallback
+        _waOpenText(mob,text);
+      }
+    });
+  } else {
+    // Device doesn't support file sharing (rare desktop case)
+    _waOpenText(mob,text);
+    toast('File sharing not supported on this device — text sent',false);
+  }
+}
+
+// Text-only WhatsApp fallback via wa.me deep link
+function _waOpenText(mob,text){
+  var url='https://wa.me/'+(mob?'91'+mob:'')+'?text='+encodeURIComponent(text);
+  window.open(url,'_blank','noopener');
+}
+
+
+function Rs(n) {
+  if (isNaN(n) || n == null) n = 0;
+  // Indian number formatting: last 3 digits grouped, then pairs of 2
+  // e.g. 1,00,000  /  99,99,999  /  1,00,00,000
+  var parts = Number(n).toFixed(2).split('.');
+  var intPart = parts[0];
+  var decPart = parts[1];
+  // Format last 3 digits first, then pairs of 2 for remaining digits
+  if (intPart.length > 3) {
+    var last3 = intPart.slice(-3);
+    var rest = intPart.slice(0, -3);
+    rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',');
+    intPart = rest + ',' + last3;
+  }
+  return 'Rs.' + intPart + '.' + decPart;
+}
+function calcDiscountAmt(subtotal){
+  var d=parseFloat(v('discountAmt').value)||0;
+  if(d<=0) return 0;
+  if(v('discountType').value==='pct') return Math.min(subtotal,subtotal*d/100);
+  return Math.min(subtotal,d);
+}
+function calcGSTTotal(taxableAmt){
+  if(!v('gstToggle').checked) return 0;
+  var rate=parseFloat(v('gstRate').value)||12;
+  return taxableAmt*rate/100;
+}
+function toast(msg, ok) {
+  var t = document.getElementById('toast');
+  t.textContent  = msg;
+  t.style.background = ok === false ? '#FEE2E2' : '#DCFCE7';
+  t.style.color      = ok === false ? '#DC2626'  : '#166534';
+  t.style.display    = 'block';
+  clearTimeout(t._t);
+  t._t = setTimeout(function(){ t.style.display='none'; }, ok===false ? 5000 : 3000);
+}
+function showLoader(msg){ document.getElementById('loaderMsg').textContent=msg||'Generating…'; document.getElementById('loader').style.display='flex'; }
+function hideLoader(){ document.getElementById('loader').style.display='none'; }
+function v(id){ return document.getElementById(id); }
+function fv(id){ var n=parseFloat(v(id).value); return isNaN(n)?0:n; }
+function iv(id){ var n=parseInt(v(id).value); return (isNaN(n)||n<1)?1:n; }
+// BUG 2 fix: HTML-escape user-entered strings before inserting into innerHTML
+function escHtml(s){
+  return String(s||'')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+// ── CUSTOM CONFIRM (Fix 15 — replaces all native confirm() dialogs) ─
+// Bug 6 fix: use { once:true } so listeners self-remove after one click,
+// preventing stacked listeners from firing onYes multiple times on repeated calls.
+function customConfirm(msg, onYes){
+  var dlg=v('customConfirm');
+  v('ccMsg').textContent=msg;
+  dlg.classList.add('show');
+  var yes=v('ccYes'), no=v('ccNo');
+  function yH(){ dlg.classList.remove('show'); no.removeEventListener('click',nH); onYes(); }
+  function nH(){ dlg.classList.remove('show'); yes.removeEventListener('click',yH); }
+  yes.addEventListener('click',yH,{once:true});
+  no.addEventListener('click',nH,{once:true});
+}
+
+// ── MOBILE NORMALISER & VALIDATOR ──────────────────────────────────
+// Strips spaces, dashes, +91 / 0 prefixes then validates 10-digit Indian number
+function normMob(raw){
+  var s=String(raw).replace(/[\s\-().]/g,'');   // strip spaces, dashes, parens, dots
+  if(/^\+91/.test(s)) s=s.slice(3);             // strip +91
+  // Improvement I: only strip bare '91' prefix when the digit after it is a valid mobile start [6-9]
+  // prevents stripping from numbers like 9100000000 (starts with 91 but is a valid mobile)
+  else if(/^91[6-9]/.test(s)&&s.length===12) s=s.slice(2);
+  else if(/^0/.test(s)) s=s.slice(1);           // strip leading 0
+  return s;
+}
+function isValidMob(raw){ return /^[6-9]\d{9}$/.test(normMob(raw)); }
+
+function updateNetBadge(){
+  var nb=v('netBadge');
+  if(!nb) return;
+  nb.textContent=navigator.onLine?'ONLINE':'OFFLINE';
+  nb.style.background=navigator.onLine?'#16A34A':'#DC2626';
+}
+updateNetBadge();
+window.addEventListener('online',updateNetBadge);
+window.addEventListener('offline',updateNetBadge);
+// Improvement J: poll every 30 s as fallback — mobile browsers sometimes miss
+// the 'online' event after reconnecting from a weak signal area.
+setInterval(updateNetBadge, 30000);
+
+// ── TABS ───────────────────────────────────────────────────────────
+function showPage(n){
+  for(var i=0;i<5;i++){
+    v('page'+i).classList.toggle('active',i===n);
+    v('tab'+i).classList.toggle('active',i===n);
+  }
+  // H9 fix: don't clear search box on tab switch — preserve the user's search query
+  if(n===3){ renderSaved(); }
+  if(n===4){ renderRateMemory(); renderDriverMemory(); renderStorageUsage(); updateSyncQueueInfo(); }
+}
+
+// ── PRODUCT TYPE ───────────────────────────────────────────────────
+function setPtype(t){
+  ptype=t;
+  v('fSawn').style.display =(t==='sawn')?'block':'none';
+  v('fRound').style.display=(t==='round')?'block':'none';
+  v('fFire').style.display =(t==='firewood')?'block':'none';
+  v('tbSawn').className ='type-btn'+(t==='sawn'?' sel':'');
+  v('tbRound').className='type-btn'+(t==='round'?' sel':'');
+  v('tbFire').className ='type-btn'+(t==='firewood'?' sel':'');
+}
+
+// ── STEPPERS ───────────────────────────────────────────────────────
+function bindStepper(mi,pl,inp,fn){
+  v(mi).addEventListener('click',function(){ var n=parseInt(v(inp).value)||1; if(n>1){v(inp).value=n-1;fn();} });
+  v(pl).addEventListener('click',function(){ var n=parseInt(v(inp).value)||1; v(inp).value=n+1;fn(); });
+  v(inp).addEventListener('input',fn);
+}
+
+// ── CALCULATORS ────────────────────────────────────────────────────
+function calcSawn(){
+  var w=fv('sW'),t=fv('sT'),l=fv('sL'),pcs=iv('sPcs'),rate=fv('sRate');
+  var c1=(w*t*l)/144,m1=c1*0.0283168,tc=c1*pcs,tm=m1*pcs,amt=tc*rate;
+  v('s_cft1').textContent=c1.toFixed(3); v('s_cum1').textContent=m1.toFixed(4);
+  v('s_tcft').textContent=tc.toFixed(3); v('s_tcum').textContent=tm.toFixed(4);
+  v('s_amt').textContent=Rs(amt);
+  v('s_fm').textContent=(rate>0&&pcs>0)?pcs+' x '+Rs(c1*rate):'';
+}
+function calcRound(){
+  var g=fv('rG'),l=fv('rL'),pcs=iv('rPcs'),rate=fv('rRate');
+  var c1=Math.pow(g/4,2)*l/144,m1=c1*0.0283168,tc=c1*pcs,tm=m1*pcs,amt=tc*rate;
+  v('r_cft1').textContent=c1.toFixed(3); v('r_cum1').textContent=m1.toFixed(4);
+  v('r_tcft').textContent=tc.toFixed(3); v('r_tcum').textContent=tm.toFixed(4);
+  v('r_amt').textContent=Rs(amt);
+  v('r_fm').textContent=(rate>0&&pcs>0)?pcs+' x '+Rs(c1*rate):'';
+}
+function calcFire(){
+  var kg=fv('fKg'),pcs=iv('fPcs'),rate=fv('fRate');
+  var q1=kg/100,tq=q1*pcs,amt=tq*rate;
+  v('f_q').textContent=q1.toFixed(3); v('f_tq').textContent=tq.toFixed(3);
+  v('f_amt').textContent=Rs(amt);
+  v('f_fm').textContent=rate>0?tq.toFixed(3)+' qtl x '+Rs(rate):'';
+}
+['sW','sT','sL','sRate'].forEach(function(id){v(id).addEventListener('input',calcSawn);});
+['rG','rL','rRate'].forEach(function(id){v(id).addEventListener('input',calcRound);});
+['fKg','fRate'].forEach(function(id){v(id).addEventListener('input',calcFire);});
+// Improvement E: live rate hint while typing — shows warning before Add is tapped
+function showRateHint(hintId, val, threshold){
+  var el=v(hintId); if(!el) return;
+  el.style.display=(val>threshold)?'block':'none';
+}
+v('sRate').addEventListener('input',function(){ showRateHint('sRateHint',fv('sRate'),8000); });
+v('rRate').addEventListener('input',function(){ showRateHint('rRateHint',fv('rRate'),8000); });
+v('fRate').addEventListener('input',function(){ showRateHint('fRateHint',fv('fRate'),5000); });
+bindStepper('sMinus','sPlus','sPcs',calcSawn);
+bindStepper('rMinus','rPlus','rPcs',calcRound);
+bindStepper('fMinus','fPlus','fPcs',calcFire);
+// Bug 5 fix: sanitize qty inputs on blur — enforce minimum of 1 so iv() display matches reality
+['sPcs','rPcs','fPcs'].forEach(function(id){
+  v(id).addEventListener('blur',function(){
+    var n=parseInt(this.value);
+    if(isNaN(n)||n<1){ this.value=1; }
+    if(id==='sPcs') calcSawn();
+    else if(id==='rPcs') calcRound();
+    else calcFire();
+  });
+});
+
+// ── ADD ENTRY ──────────────────────────────────────────────────────
+function addEntry(type){
+  var wood=v('woodType').value, name=v('pName').value.trim()||wood;
+  var e={id:Date.now(),type:type,wood:wood,name:name};
+  if(type==='sawn'){
+    var sW=fv('sW'),sT=fv('sT'),sL=fv('sL'),sPcs=iv('sPcs'),sRate=fv('sRate');
+    if(!sW||!sT||!sL){toast('Fill width, thickness and length!',false);return;}
+    if(!sRate){toast('Rate cannot be zero!',false);return;}
+    if(sW>120||sT>60||sL>100){toast('Dimensions seem too large — please check!',false);return;}
+    if(sRate>8000){toast('Rate seems very high (>₹8000/CFT) — please verify!',false);return;}
+    var c1=(sW*sT*sL)/144;
+    e.w=sW;e.t=sT;e.l=sL;e.pcs=sPcs;e.rate=sRate;e.cft1=c1;e.tcft=c1*sPcs;e.amt=c1*sPcs*sRate;
+  } else if(type==='round'){
+    var rG=fv('rG'),rL=fv('rL'),rPcs=iv('rPcs'),rRate=fv('rRate');
+    if(!rG||!rL){toast('Fill girth and length!',false);return;}
+    if(!rRate){toast('Rate cannot be zero!',false);return;}
+    if(rG>300||rL>60){toast('Dimensions seem too large — please check!',false);return;}
+    if(rRate>8000){toast('Rate seems very high (>₹8000/CFT) — please verify!',false);return;}
+    var c1r=Math.pow(rG/4,2)*rL/144;
+    e.g=rG;e.l=rL;e.pcs=rPcs;e.rate=rRate;e.cft1=c1r;e.tcft=c1r*rPcs;e.amt=c1r*rPcs*rRate;
+  } else {
+    var fKg=fv('fKg'),fPcs=iv('fPcs'),fRate=fv('fRate');
+    if(!fKg){toast('Enter weight in kg!',false);return;}
+    if(!fRate){toast('Rate cannot be zero!',false);return;}
+    if(fKg>10000){toast('Weight seems too large — please check!',false);return;}
+    var q1=fKg/100;
+    e.kg=fKg;e.pcs=fPcs;e.rate=fRate;e.q1=q1;e.tq=q1*fPcs;e.amt=q1*fPcs*fRate;
+  }
+  session.push(e); renderSession(); saveState(); toast('✓ Added: '+e.name+' — '+Rs(e.amt));
+  // Remember rate for this wood type (C4: pass unit so Settings shows correct /CFT or /Qtl)
+  saveRateMemory(wood, e.rate, type==='firewood'?'qtl':'cft');
+  if(type==='sawn'){
+    v('sW').value='';v('sT').value='';v('sL').value='';v('sRate').value='';
+    v('sPcs').value=1;calcSawn();v('sW').focus();
+  }
+  else if(type==='round'){
+    v('rG').value='';v('rL').value='';v('rRate').value='';
+    v('rPcs').value=1;calcRound();v('rG').focus();
+  }
+  else{
+    v('fKg').value='';v('fRate').value='';
+    v('fPcs').value=1;calcFire();v('fKg').focus();
+  }
+}
+function debounceBtn(el,ms){el.disabled=true;setTimeout(function(){el.disabled=false;},ms||800);}
+v('addSawn').addEventListener('click',function(){debounceBtn(this);addEntry('sawn');});
+v('addRound').addEventListener('click',function(){debounceBtn(this);addEntry('round');});
+v('addFire').addEventListener('click',function(){debounceBtn(this);addEntry('firewood');});
+
+// ── RENDER SESSION ─────────────────────────────────────────────────
+function renderSession(){
+  v('sBadge').textContent=session.length;
+  var list=v('sessionList'),sa=v('sessAct'),sc=v('sumCard'),sb=v('stickyBar');
+  if(!session.length){
+    list.innerHTML='<div class="empty">No entries yet. Add items from Entry tab.</div>';
+    sa.style.display=sc.style.display=sb.style.display='none'; return;
+  }
+  sa.style.display='block'; sc.style.display='block'; sb.style.display='flex';
+  v('stickyLabel').textContent='Session Total';
+  var totAmt=session.reduce(function(s,e){return s+e.amt;},0);
+  var totCft=session.reduce(function(s,e){return s+(e.tcft||0);},0);
+  v('sumGrid').innerHTML=
+    '<div class="sum-cell"><div class="sum-l">Entries</div><div class="sum-v">'+session.length+'</div></div>'+
+    '<div class="sum-cell"><div class="sum-l">Total CFT</div><div class="sum-v">'+totCft.toFixed(2)+'</div></div>'+
+    '<div class="sum-cell"><div class="sum-l">Total Amt</div><div class="sum-v">'+Rs(totAmt)+'</div></div>';
+  v('stickyAmt').textContent=Rs(totAmt); v('stickyCount').textContent=session.length;
+  list.innerHTML=session.map(function(e,i){
+    var cls=e.type==='sawn'?'es':e.type==='round'?'er':'ef';
+    var tlabel=e.type==='sawn'?'SAWN TIMBER':e.type==='round'?'ROUND LOG':'FIRE WOOD';
+    var typeColor=e.type==='sawn'?'#166534':e.type==='round'?'#1e40af':'#DC2626';
+    var dim='',cells='';
+    if(e.type==='sawn'){
+      dim='W:'+e.w+'" T:'+e.t+'" L:'+e.l+'ft x '+e.pcs+' pcs';
+      cells='<div class="ec"><div class="ec-l">CFT/PC</div><div class="ec-v">'+e.cft1.toFixed(3)+'</div></div>'+
+            '<div class="ec"><div class="ec-l">Total CFT</div><div class="ec-v">'+e.tcft.toFixed(3)+'</div></div>'+
+            '<div class="ec"><div class="ec-l">Rate</div><div class="ec-v">'+Rs(e.rate)+'/CFT</div></div>';
+    } else if(e.type==='round'){
+      dim='G:'+e.g+'" L:'+e.l+'ft x '+e.pcs+' logs';
+      cells='<div class="ec"><div class="ec-l">CFT/Log</div><div class="ec-v">'+e.cft1.toFixed(3)+'</div></div>'+
+            '<div class="ec"><div class="ec-l">Total CFT</div><div class="ec-v">'+e.tcft.toFixed(3)+'</div></div>'+
+            '<div class="ec"><div class="ec-l">Rate</div><div class="ec-v">'+Rs(e.rate)+'/CFT</div></div>';
+    } else {
+      dim=e.kg+'kg x '+e.pcs+' loads';
+      cells='<div class="ec"><div class="ec-l">Qtl/Load</div><div class="ec-v">'+e.q1.toFixed(3)+'</div></div>'+
+            '<div class="ec"><div class="ec-l">Total Qtl</div><div class="ec-v">'+e.tq.toFixed(3)+'</div></div>'+
+            '<div class="ec"><div class="ec-l">Rate</div><div class="ec-v">'+Rs(e.rate)+'/Qtl</div></div>';
+    }
+    var perAmt=e.pcs>0?e.amt/e.pcs:0;
+    return '<div class="entry '+cls+'" data-i="'+i+'">'+
+      '<button class="dbtn del-s" style="right:42px">✕</button>'+
+      '<button class="dbtn edt-s" style="background:#FEF3C7;color:#92400E;border:none;border-radius:7px;width:28px;height:28px;font-size:13px;cursor:pointer;font-weight:900;display:flex;align-items:center;justify-content:center;position:absolute;top:10px;right:10px">✏</button>'+
+      '<div class="e-type" style="color:'+typeColor+'">'+tlabel+' - '+e.wood+'</div>'+
+      '<div class="e-name">'+e.name+'</div>'+
+      '<div class="e-dim">'+dim+'</div>'+
+      '<div class="e-cells">'+cells+'</div>'+
+      '<div class="e-amt"><span style="color:#C4956A;font-size:11px;font-weight:900">'+e.pcs+' x '+Rs(perAmt)+'</span>'+
+      '<span style="font-size:20px;font-weight:900;color:#FBBF24">'+Rs(e.amt)+'</span></div>'+
+      '<button class="addb-s" style="width:100%;margin-top:8px;padding:7px;background:linear-gradient(135deg,#1e40af,#1d4ed8);color:#fff;border:none;border-radius:8px;font-weight:900;font-size:11px;cursor:pointer;text-transform:uppercase;letter-spacing:.4px">+ Add this to Bill</button>'+
+      '</div>';
+  }).join('');
+  v('sessionList').querySelectorAll('.del-s').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var i=parseInt(btn.closest('[data-i]').getAttribute('data-i'));
+      customConfirm('Remove "'+session[i].name+'" from session?',function(){
+        session.splice(i,1); renderSession(); saveState(); toast('Removed');
+      });
+    });
+  });
+  v('sessionList').querySelectorAll('.addb-s').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var i=parseInt(btn.closest('[data-i]').getAttribute('data-i'));
+      bill.push(Object.assign({},session[i]));
+      session.splice(i,1);
+      renderSession(); renderBill(); saveState();
+      toast('Added to bill! Switch to Bill tab.');
+    });
+  });
+  v('sessionList').querySelectorAll('.edt-s').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var i=parseInt(btn.closest('[data-i]').getAttribute('data-i'));
+      openEdit(i);
+    });
+  });
+}
+
+function openEdit(i){
+  var e=session[i];
+  var card=v('sessionList').querySelector('[data-i="'+i+'"]');
+  var inpStyle='width:100%;padding:8px 10px;border:2px solid #8B5E3C;border-radius:7px;font-size:16px;font-weight:700;background:#fff;color:#1A1008;outline:none;box-sizing:border-box;margin-bottom:6px';
+  var lblStyle='display:block;font-size:11px;font-weight:900;color:#5C3D1E;margin-bottom:2px';
+  var html='<div style="padding:2px">';
+  html+='<div style="font-size:11px;font-weight:900;color:#E8A020;margin-bottom:8px;text-transform:uppercase">✏ Edit Entry</div>';
+  html+='<label style="'+lblStyle+'">Custom Name</label><input id="ei_name" style="'+inpStyle+'" value="'+e.name+'" placeholder="Name"/>';
+  if(e.type==='sawn'){
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
+    html+='<div><label style="'+lblStyle+'">Width (in)</label><input id="ei_w" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.w+'"/></div>';
+    html+='<div><label style="'+lblStyle+'">Thickness (in)</label><input id="ei_t" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.t+'"/></div>';
+    html+='<div><label style="'+lblStyle+'">Length (ft)</label><input id="ei_l" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.l+'"/></div>';
+    html+='<div><label style="'+lblStyle+'">Qty (pcs)</label><input id="ei_pcs" type="text" inputmode="numeric" style="'+inpStyle+'" value="'+e.pcs+'"/></div>';
+    html+='</div>';
+    html+='<label style="'+lblStyle+'">Rate / CFT (Rs.)</label><input id="ei_rate" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.rate+'"/>';
+  } else if(e.type==='round'){
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
+    html+='<div><label style="'+lblStyle+'">Girth (in)</label><input id="ei_g" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.g+'"/></div>';
+    html+='<div><label style="'+lblStyle+'">Length (ft)</label><input id="ei_l" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.l+'"/></div>';
+    html+='<div><label style="'+lblStyle+'">Qty (logs)</label><input id="ei_pcs" type="text" inputmode="numeric" style="'+inpStyle+'" value="'+e.pcs+'"/></div>';
+    html+='</div>';
+    html+='<label style="'+lblStyle+'">Rate / CFT (Rs.)</label><input id="ei_rate" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.rate+'"/>';
+  } else {
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
+    html+='<div><label style="'+lblStyle+'">Weight kg/load</label><input id="ei_kg" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.kg+'"/></div>';
+    html+='<div><label style="'+lblStyle+'">Loads (qty)</label><input id="ei_pcs" type="text" inputmode="numeric" style="'+inpStyle+'" value="'+e.pcs+'"/></div>';
+    html+='</div>';
+    html+='<label style="'+lblStyle+'">Rate / Quintal (Rs.)</label><input id="ei_rate" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.rate+'"/>';
+  }
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px">';
+  html+='<button onclick="saveEdit('+i+')" style="padding:10px;background:linear-gradient(135deg,#166534,#14532d);color:#fff;border:none;border-radius:8px;font-weight:900;font-size:13px;cursor:pointer">✓ Save</button>';
+  html+='<button onclick="renderSession()" style="padding:10px;background:#F5E6D3;color:#4A2515;border:2px solid #C4956A;border-radius:8px;font-weight:900;font-size:13px;cursor:pointer">✕ Cancel</button>';
+  html+='</div></div>';
+  card.innerHTML=html;
+}
+
+function saveEdit(i){
+  var e=session[i];
+  var name=document.getElementById('ei_name').value.trim()||e.wood;
+  var rate=parseFloat(document.getElementById('ei_rate').value)||0;
+  var pcs=parseInt(document.getElementById('ei_pcs').value)||1; if(pcs<1)pcs=1;
+  if(!rate){toast('Rate cannot be zero',false);return;}
+  if(e.type==='sawn'){
+    var w=parseFloat(document.getElementById('ei_w').value)||0;
+    var t=parseFloat(document.getElementById('ei_t').value)||0;
+    var l=parseFloat(document.getElementById('ei_l').value)||0;
+    if(!w||!t||!l){toast('Fill all dimensions',false);return;}
+    var c1=(w*t*l)/144;
+    e.name=name;e.w=w;e.t=t;e.l=l;e.pcs=pcs;e.rate=rate;e.cft1=c1;e.tcft=c1*pcs;e.amt=c1*pcs*rate;
+  } else if(e.type==='round'){
+    var g=parseFloat(document.getElementById('ei_g').value)||0;
+    // Bug 7 fix: renamed from 'var l' to 'var rl' — 'var l' was already declared in the sawn branch
+    // above; duplicate var in non-strict JS is hoisted safely but breaks in strict/module context.
+    var rl=parseFloat(document.getElementById('ei_l').value)||0;
+    if(!g||!rl){toast('Fill all dimensions',false);return;}
+    var c1r=Math.pow(g/4,2)*rl/144;
+    e.name=name;e.g=g;e.l=rl;e.pcs=pcs;e.rate=rate;e.cft1=c1r;e.tcft=c1r*pcs;e.amt=c1r*pcs*rate;
+  } else {
+    var kg=parseFloat(document.getElementById('ei_kg').value)||0;
+    if(!kg){toast('Weight cannot be zero',false);return;}
+    var q1=kg/100;
+    e.name=name;e.kg=kg;e.pcs=pcs;e.rate=rate;e.q1=q1;e.tq=q1*pcs;e.amt=q1*pcs*rate;
+  }
+  session[i]=e;
+  renderSession(); saveState(); toast('Entry updated ✓');
+}
+v('sessAddBill').addEventListener('click',function(){
+  if(!session.length){toast('No entries!',false);return;}
+  var self=this;
+  // Improvement C: warn if bill already has items to prevent accidental double-add
+  function doAdd(){
+    debounceBtn(self);
+    var addCount=session.length; // C1 fix: capture count BEFORE clearing
+    session.forEach(function(e){bill.push(Object.assign({},e));});
+    session=[];
+    renderSession(); renderBill(); saveState(); toast('All '+addCount+' item'+(addCount!==1?'s':'')+' added to bill!'); showPage(2);
+  }
+  if(bill.length>0){
+    customConfirm('Bill already has '+bill.length+' item'+(bill.length!==1?'s':'')+'. Add '+session.length+' more from session?', doAdd);
+  } else {
+    doAdd();
+  }
+});
+v('sessClear').addEventListener('click',function(){
+  if(!session.length)return;
+  customConfirm('Clear all session entries?',function(){session=[];renderSession();saveState();toast('Session cleared');});
+});
+
+// ── RENDER BILL ────────────────────────────────────────────────────
+function renderBill(){
+  v('bBadge').textContent=bill.length; v('billCount').textContent='('+bill.length+')';
+  var list=v('billList'),pc=v('payCard'),ba=v('billAct'),sb=v('stickyBar');
+  if(!bill.length){
+    list.innerHTML='<div class="empty">No items. Add from Session tab.</div>';
+    pc.style.display=ba.style.display='none';
+    sb.style.display='none';
+    return;
+  }
+  pc.style.display=ba.style.display='block';
+  sb.style.display='flex';
+  v('stickyLabel').textContent='Bill Total';
+  var gt=bill.reduce(function(s,e){return s+e.amt;},0);
+  v('gtDisp').textContent=Rs(gt);
+  v('stickyAmt').textContent=Rs(gt);
+  v('stickyCount').textContent=bill.length;
+  calcDue();
+  list.innerHTML=bill.map(function(e,i){
+    var cls=e.type==='sawn'?'bs':e.type==='round'?'br':'bf';
+    var tlb=e.type==='sawn'?'Sawn':e.type==='round'?'Round':'Firewood';
+    var dim='';
+    if(e.type==='sawn') dim=e.w+'"x'+e.t+'"x'+e.l+'ft x '+e.pcs+'pcs | '+e.tcft.toFixed(3)+' CFT';
+    else if(e.type==='round') dim='G'+e.g+'"xL'+e.l+'ft x '+e.pcs+'logs | '+e.tcft.toFixed(3)+' CFT';
+    else dim=e.kg+'kg x '+e.pcs+' loads | '+e.tq.toFixed(3)+' Qtl';
+    var ul=e.type==='firewood'?'Qtl':'CFT';
+    return '<div class="brow '+cls+'" data-i="'+i+'">'+
+      '<div style="display:flex;justify-content:space-between;align-items:start">'+
+      '<div><div style="font-size:9px;font-weight:900;color:#A07050;text-transform:uppercase">'+tlb+' - '+e.wood+'</div>'+
+      '<div style="font-size:15px;font-weight:900;color:#2C1810">'+e.name+'</div>'+
+      '<div style="font-size:11px;color:#5C3D1E;font-weight:700;margin-top:2px">'+dim+'</div></div>'+
+      '<div style="display:flex;gap:5px;flex-shrink:0;margin-left:8px">'+
+      '<button class="dbtn edt-b" style="position:static;background:#FEF3C7;color:#92400E;border:none">✏</button>'+
+      '<button class="dbtn del-b" style="position:static">✕</button>'+
+      '</div></div>'+
+      '<div class="bamt"><span style="color:#C4956A;font-size:11px;font-weight:900">'+Rs(e.rate)+'/'+ul+'</span>'+
+      '<span style="font-size:20px;font-weight:900;color:#FBBF24">'+Rs(e.amt)+'</span></div></div>';
+  }).join('');
+  v('billList').querySelectorAll('.del-b').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var i=parseInt(btn.closest('[data-i]').getAttribute('data-i'));
+      customConfirm('Remove "'+bill[i].name+'" from bill?',function(){
+        bill.splice(i,1); renderBill(); saveState();
+      });
+    });
+  });
+  // Improvement A: Edit button for bill items (mirrors session edit)
+  v('billList').querySelectorAll('.edt-b').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var i=parseInt(btn.closest('[data-i]').getAttribute('data-i'));
+      openBillEdit(i);
+    });
+  });
+}
+// Improvement A: inline edit for bill items
+function openBillEdit(i){
+  var e=bill[i];
+  var card=v('billList').querySelector('[data-i="'+i+'"]');
+  var inpStyle='width:100%;padding:8px 10px;border:2px solid #8B5E3C;border-radius:7px;font-size:16px;font-weight:700;background:#fff;color:#1A1008;outline:none;box-sizing:border-box;margin-bottom:6px';
+  var lblStyle='display:block;font-size:11px;font-weight:900;color:#5C3D1E;margin-bottom:2px';
+  var html='<div style="padding:2px">';
+  html+='<div style="font-size:11px;font-weight:900;color:#E8A020;margin-bottom:8px;text-transform:uppercase">✏ Edit Bill Item</div>';
+  html+='<label style="'+lblStyle+'">Custom Name</label><input id="bei_name" style="'+inpStyle+'" value="'+e.name+'" placeholder="Name"/>';
+  if(e.type==='sawn'){
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
+    html+='<div><label style="'+lblStyle+'">Width (in)</label><input id="bei_w" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.w+'"/></div>';
+    html+='<div><label style="'+lblStyle+'">Thickness (in)</label><input id="bei_t" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.t+'"/></div>';
+    html+='<div><label style="'+lblStyle+'">Length (ft)</label><input id="bei_l" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.l+'"/></div>';
+    html+='<div><label style="'+lblStyle+'">Qty (pcs)</label><input id="bei_pcs" type="text" inputmode="numeric" style="'+inpStyle+'" value="'+e.pcs+'"/></div>';
+    html+='</div>';
+    html+='<label style="'+lblStyle+'">Rate / CFT (Rs.)</label><input id="bei_rate" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.rate+'"/>';
+  } else if(e.type==='round'){
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
+    html+='<div><label style="'+lblStyle+'">Girth (in)</label><input id="bei_g" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.g+'"/></div>';
+    html+='<div><label style="'+lblStyle+'">Length (ft)</label><input id="bei_l" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.l+'"/></div>';
+    html+='<div><label style="'+lblStyle+'">Qty (logs)</label><input id="bei_pcs" type="text" inputmode="numeric" style="'+inpStyle+'" value="'+e.pcs+'"/></div>';
+    html+='</div>';
+    html+='<label style="'+lblStyle+'">Rate / CFT (Rs.)</label><input id="bei_rate" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.rate+'"/>';
+  } else {
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">';
+    html+='<div><label style="'+lblStyle+'">Weight kg/load</label><input id="bei_kg" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.kg+'"/></div>';
+    html+='<div><label style="'+lblStyle+'">Loads (qty)</label><input id="bei_pcs" type="text" inputmode="numeric" style="'+inpStyle+'" value="'+e.pcs+'"/></div>';
+    html+='</div>';
+    html+='<label style="'+lblStyle+'">Rate / Quintal (Rs.)</label><input id="bei_rate" type="text" inputmode="decimal" style="'+inpStyle+'" value="'+e.rate+'"/>';
+  }
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px">';
+  html+='<button onclick="saveBillEdit('+i+')" style="padding:10px;background:linear-gradient(135deg,#166534,#14532d);color:#fff;border:none;border-radius:8px;font-weight:900;font-size:13px;cursor:pointer">✓ Save</button>';
+  html+='<button onclick="renderBill()" style="padding:10px;background:#F5E6D3;color:#4A2515;border:2px solid #C4956A;border-radius:8px;font-weight:900;font-size:13px;cursor:pointer">✕ Cancel</button>';
+  html+='</div></div>';
+  card.innerHTML=html;
+}
+function saveBillEdit(i){
+  var e=bill[i];
+  var name=document.getElementById('bei_name').value.trim()||e.wood;
+  var rate=parseFloat(document.getElementById('bei_rate').value)||0;
+  var pcs=parseInt(document.getElementById('bei_pcs').value)||1; if(pcs<1)pcs=1;
+  if(!rate){toast('Rate cannot be zero',false);return;}
+  if(e.type==='sawn'){
+    var w=parseFloat(document.getElementById('bei_w').value)||0;
+    var t=parseFloat(document.getElementById('bei_t').value)||0;
+    var l=parseFloat(document.getElementById('bei_l').value)||0;
+    if(!w||!t||!l){toast('Fill all dimensions',false);return;}
+    var c1=(w*t*l)/144;
+    e.name=name;e.w=w;e.t=t;e.l=l;e.pcs=pcs;e.rate=rate;e.cft1=c1;e.tcft=c1*pcs;e.amt=c1*pcs*rate;
+  } else if(e.type==='round'){
+    var bg=parseFloat(document.getElementById('bei_g').value)||0;
+    var brl=parseFloat(document.getElementById('bei_l').value)||0;
+    if(!bg||!brl){toast('Fill all dimensions',false);return;}
+    var c1r=Math.pow(bg/4,2)*brl/144;
+    e.name=name;e.g=bg;e.l=brl;e.pcs=pcs;e.rate=rate;e.cft1=c1r;e.tcft=c1r*pcs;e.amt=c1r*pcs*rate;
+  } else {
+    var bkg=parseFloat(document.getElementById('bei_kg').value)||0;
+    if(!bkg){toast('Weight cannot be zero',false);return;}
+    var q1=bkg/100;
+    e.name=name;e.kg=bkg;e.pcs=pcs;e.rate=rate;e.q1=q1;e.tq=q1*pcs;e.amt=q1*pcs*rate;
+  }
+  bill[i]=e;
+  renderBill(); saveState(); toast('Bill item updated ✓');
+}
+function calcDue(){
+  var gt=bill.reduce(function(s,e){return s+e.amt;},0);
+  var tr=parseFloat(v('transportAmt').value)||0; if(tr<0)tr=0;
+  var ld=parseFloat(v('loadingAmt').value)||0;  if(ld<0)ld=0;
+  var subTotal=gt+tr+ld;
+  var disc=calcDiscountAmt(subTotal);
+  var taxable=subTotal-disc;
+  var gstAmt=calcGSTTotal(taxable);
+  var total=taxable+gstAmt;
+  var paid=parseFloat(v('paidAmt').value)||0;   if(paid<0)paid=0;
+  var due=Math.max(0,total-paid);
+
+  v('gtWithChargesDisp').textContent=Rs(subTotal);
+  v('discountDisp').textContent=Rs(disc);
+  v('gtFinalDisp').textContent=Rs(total);
+  v('paidDisp').textContent=Rs(paid);
+  v('dueDisp').textContent=Rs(due);
+
+  // GST breakdown display
+  if(v('gstToggle').checked){
+    var rate=parseFloat(v('gstRate').value)||12;
+    var gType=v('gstType').value;
+    if(gType==='cgst_sgst'){
+      v('gstLabel1').textContent='CGST ('+(rate/2)+'%)';
+      v('gstLabel2').textContent='SGST ('+(rate/2)+'%)';
+      v('gstAmt1').textContent=Rs(gstAmt/2);
+      v('gstAmt2').textContent=Rs(gstAmt/2);
+      v('gstLabel2').parentNode.style.display='flex';
+    } else {
+      v('gstLabel1').textContent='IGST ('+rate+'%)';
+      v('gstAmt1').textContent=Rs(gstAmt);
+      v('gstLabel2').parentNode.style.display='none';
+    }
+    v('gstTotal').textContent=Rs(gstAmt);
+  }
+
+  // Overpayment warning
+  var overpaidWarn=v('overpaidWarn');
+  if(paid>total&&total>0){
+    if(!overpaidWarn){
+      var ow=document.createElement('div');
+      ow.id='overpaidWarn';
+      ow.style.cssText='background:#FEF3C7;border:2px solid #F59E0B;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:900;color:#92400E;margin-top:6px;text-align:center';
+      ow.textContent='⚠ Overpaid by '+Rs(paid-total)+' — please verify payment amount';
+      v('dueDisp').parentNode.insertAdjacentElement('afterend',ow);
+    } else {
+      overpaidWarn.textContent='⚠ Overpaid by '+Rs(paid-total)+' — please verify payment amount';
+      overpaidWarn.style.display='block';
+    }
+  } else if(overpaidWarn){ overpaidWarn.style.display='none'; }
+  // show due date section only when there is a balance
+  var dds=v('dueDateSection');
+  dds.style.display=due>0?'block':'none';
+  if(due<=0){ v('dueDate').value=''; v('dueDaysInfo').textContent=''; }
+  // update days info if a date is set
+  var dd=v('dueDate').value;
+  if(dd&&due>0){
+    var dParts=dd.split('-'),dLocal=new Date(+dParts[0],+dParts[1]-1,+dParts[2]);
+    var tLocal=new Date(); tLocal.setHours(0,0,0,0);
+    var diff=Math.round((dLocal-tLocal)/(1000*60*60*24));
+    v('dueDaysInfo').textContent=diff>0?diff+' days remaining':diff===0?'⚠ Due today!':'⚠ Overdue by '+Math.abs(diff)+' days!';
+    v('dueDaysInfo').style.color=diff<=0?'#f87171':'#fca5a5';
+  } else {
+    v('dueDaysInfo').textContent='';
+  }
+}
+// Fix 14 — clamp negative charge/payment values on input
+function clampNeg(el){var n=parseFloat(el.value);if(!isNaN(n)&&n<0)el.value='0';}
+v('paidAmt').addEventListener('input',function(){clampNeg(this);calcDue();saveState();});
+v('transportAmt').addEventListener('input',function(){clampNeg(this);calcDue();saveState();});
+v('loadingAmt').addEventListener('input',function(){clampNeg(this);calcDue();saveState();});
+v('discountAmt').addEventListener('input',function(){clampNeg(this);calcDue();saveState();});
+v('discountType').addEventListener('change',function(){calcDue(); saveState();}); // H5 fix: persist type change
+v('gstToggle').addEventListener('change',function(){
+  v('gstFields').style.display=this.checked?'block':'none';
+  // H4 fix: reset GST display to zero when unchecked
+  if(!this.checked){
+    v('gstAmt1').textContent=Rs(0);
+    v('gstAmt2').textContent=Rs(0);
+    v('gstTotal').textContent=Rs(0);
+  }
+  calcDue(); saveState();
+});
+v('gstRate').addEventListener('change',function(){calcDue();saveState();});
+v('gstType').addEventListener('change',function(){calcDue(); saveState();}); // H6 fix: persist type change
+v('dueDate').addEventListener('change',function(){calcDue();saveState();});
+function setPct(p){
+  var gt=bill.reduce(function(s,e){return s+e.amt;},0);
+  var tr=parseFloat(v('transportAmt').value)||0;
+  var ld=parseFloat(v('loadingAmt').value)||0;
+  var subTotal=gt+tr+ld;
+  var disc=calcDiscountAmt(subTotal);
+  var gstAmt=calcGSTTotal(subTotal-disc);
+  var total=subTotal-disc+gstAmt;
+  v('paidAmt').value=(total*p).toFixed(2);
+  calcDue();
+}
+v('pct25').addEventListener('click',function(){setPct(.25);});
+v('pct50').addEventListener('click',function(){setPct(.5);});
+v('pct75').addEventListener('click',function(){setPct(.75);});
+v('pctFull').addEventListener('click',function(){setPct(1);});
+// Fix 15 — custom confirm for Clear Bill
+v('billClearBtn').addEventListener('click',function(){
+  customConfirm('Clear all bill items and payment details?\n(Customer name/address will be kept for next bill)',function(){
+    bill=[];
+    v('paidAmt').value='';v('transportAmt').value='';v('loadingAmt').value='';
+    v('discountAmt').value='';v('dueDate').value='';
+    v('vehNo').value='';v('vehDriver').value='';
+    v('vehFrom').value='CHOUDWAR, CUTTACK'; // always restore fixed origin
+    v('vehTo').value='';
+    v('gstToggle').checked=false; v('gstFields').style.display='none';
+    renderBill();saveState();toast('Bill items cleared. Customer details kept.');
+  });
+});
+v('billSaveBtn').addEventListener('click',function(){
+  debounceBtn(this,3000);
+  var n=v('custName').value.trim(),m=normMob(v('custMob').value),a=v('custAddr').value.trim();
+  ['eN','eM','eA'].forEach(function(id){v(id).style.display='none';});
+  var ok=true;
+  if(!n){v('eN').style.display='block';ok=false;}
+  if(!isValidMob(m)){v('eM').style.display='block';ok=false;}
+  if(!a){v('eA').style.display='block';ok=false;}
+  if(!ok){
+    toast('Fill customer details',false);
+    v('custName').scrollIntoView({behavior:'smooth',block:'start'});
+    return;
+  }
+  if(!bill.length){toast('No items in bill',false);return;}
+  var billNo=v('billNo').value;
+  var rawDate=v('billDate').value;
+  var formattedDate=(function(){
+    var parts=rawDate.split('-');
+    if(parts.length===3) return parts[2]+'/'+parts[1]+'/'+parts[0];
+    return rawDate||new Date().toLocaleDateString('en-IN');
+  }());
+  var gt=bill.reduce(function(s,e){return s+e.amt;},0);
+  var tr=parseFloat(v('transportAmt').value)||0;
+  var ld=parseFloat(v('loadingAmt').value)||0;
+  var subTotal=gt+tr+ld;
+  var discAmt=calcDiscountAmt(subTotal);
+  var gstEnabled=v('gstToggle').checked;
+  var gstRateVal=parseFloat(v('gstRate').value)||12;
+  var gstTypeVal=v('gstType').value;
+  var gstAmt=calcGSTTotal(subTotal-discAmt);
+  var total=subTotal-discAmt+gstAmt;
+  var paid=parseFloat(v('paidAmt').value)||0;
+  var snapshot={
+    billNo:billNo,
+    date:formattedDate,
+    savedAt:Date.now(),
+    customer:{name:n,mob:m,addr:a},
+    items:bill.map(function(e){return Object.assign({},e);}),
+    transport:tr, loading:ld,
+    discount:discAmt, discountInput:parseFloat(v('discountAmt').value)||0, discountType:v('discountType').value,
+    gstEnabled:gstEnabled, gstRate:gstRateVal, gstType:gstTypeVal, gstAmt:gstAmt,
+    grandTotal:total, paid:paid, due:Math.max(0,total-paid),
+    vehNo:v('vehNo').value, vehDriver:v('vehDriver').value,
+    vehFrom:v('vehFrom').value, vehTo:v('vehTo').value,
+    dueDate:v('dueDate').value
+  };
+  savedBills.unshift(snapshot);
+  billCtr++; localStorage.setItem('wd_bc',billCtr);
+  // Fix 1+11: auto-clear bill after save to prevent duplicate saves
+  bill=[];
+  v('paidAmt').value='';v('transportAmt').value='';v('loadingAmt').value='';
+  v('dueDate').value='';
+  v('vehNo').value='';v('vehDriver').value='';
+  v('vehFrom').value='CHOUDWAR, CUTTACK'; // always restore fixed origin after save
+  v('vehTo').value='';
+  // Save driver name to memory before clearing
+  var _savedVehNo=v('vehNo').value.trim().toUpperCase();
+  var _savedDriver=v('vehDriver').value.trim();
+  if(_savedVehNo&&_savedDriver) saveDriverMemory(_savedVehNo,_savedDriver);
+  saveState();
+  // ── AUTO SYNC to Google Sheets ──
+  autoSyncBill(snapshot);
+  v('svBadge').textContent=savedBills.length;
+  renderBill();
+  toast('Bill '+billNo+' saved \u2714 — Ready for next bill');
+  v('billNo').value='WD-'+billCtr;
+  var _nd=new Date(),_nm=String(_nd.getMonth()+1).padStart(2,'0'),_ndd=String(_nd.getDate()).padStart(2,'0');
+  v('billDate').value=_nd.getFullYear()+'-'+_nm+'-'+_ndd;
+});
+
+// ── RENDER SAVED BILLS ─────────────────────────────────────────────
+// Improvement G: bulk delete all saved bills behind a strong confirm
+function clearAllSavedBills(){
+  if(!savedBills.length){toast('No saved bills to clear.',false);return;}
+  customConfirm('Delete ALL '+savedBills.length+' saved bills? This CANNOT be undone. Export a backup first!',function(){
+    savedBills=[];
+    // M5 fix: reset date filters so "No saved bills yet." shows cleanly
+    v('savedFrom').value=''; v('savedTo').value=''; v('savedSearch').value='';
+    saveState(); renderSaved();
+    toast('All saved bills deleted.');
+  });
+}
+function clearSavedFilters(){
+  v('savedSearch').value=''; v('savedFrom').value=''; v('savedTo').value='';
+  renderSaved();
+}
+function parseBillDate(dateStr){
+  // Supports DD/MM/YYYY
+  if(!dateStr) return null;
+  var p=dateStr.split('/');
+  if(p.length===3) return new Date(+p[2],+p[1]-1,+p[0]);
+  return null;
+}
+function renderSaved(){
+  v('svBadge').textContent=savedBills.length;
+  var list=v('savedList');
+  if(!savedBills.length){list.innerHTML='<div class="empty">No saved bills yet.</div>';return;}
+  var q=(v('savedSearch').value||'').trim().toLowerCase();
+  var fromDate=v('savedFrom').value?(function(){var p=v('savedFrom').value.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}()):null;
+  var toDate=v('savedTo').value?(function(){var p=v('savedTo').value.split('-');return new Date(+p[0],+p[1]-1,+p[2],23,59,59);}()):null;
+  var filtered=savedBills.map(function(b,i){return Object.assign({},b,{_idx:i});}).filter(function(b){
+    var textOk=!q||((b.billNo||'').toLowerCase().indexOf(q)>-1
+      ||(b.customer.name||'').toLowerCase().indexOf(q)>-1
+      ||(b.customer.mob||'').toLowerCase().indexOf(q)>-1
+      ||(b.customer.addr||'').toLowerCase().indexOf(q)>-1
+      // H8 fix: also search by amount, due, and date text
+      ||(b.grandTotal?b.grandTotal.toFixed(0).indexOf(q)>-1:false)
+      ||(b.due?b.due.toFixed(0).indexOf(q)>-1:false)
+      ||(b.date||'').toLowerCase().indexOf(q)>-1);
+    if(!textOk) return false;
+    if(fromDate||toDate){
+      var bd=parseBillDate(b.date);
+      if(fromDate&&bd&&bd<fromDate) return false;
+      if(toDate&&bd&&bd>toDate) return false;
+    }
+    return true;
+  });
+  if(!filtered.length){list.innerHTML='<div class="empty">No bills match "'+q+'".</div>';return;}
+  list.innerHTML=filtered.map(function(b){
+    var i=b._idx;
+    var dueColor=b.due>0?'#DC2626':'#166534';
+    var dueLabel=b.due>0?'Due: '+Rs(b.due):'Fully Paid';
+    var safeNo=b.billNo.replace(/'/g,"\\'");
+    return '<div class="brow" style="margin-bottom:10px">'+
+      '<div style="display:flex;justify-content:space-between;align-items:start">'+
+      '<div>'+
+      '<div style="font-size:11px;font-weight:900;color:#E8A020">'+escHtml(b.billNo)+' &nbsp;·&nbsp; <span style="color:#A07050;font-weight:700">'+escHtml(b.date)+'</span></div>'+
+      '<div style="font-size:15px;font-weight:900;color:#2C1810;margin-top:2px">'+escHtml(b.customer.name)+'</div>'+
+      '<div style="font-size:11px;color:#5C3D1E;font-weight:700">'+escHtml(b.customer.mob)+' &nbsp;·&nbsp; '+b.items.length+' item'+(b.items.length!==1?'s':'')+'</div>'+
+      '</div>'+
+      '<button onclick="deleteSaved('+i+')" style="background:#FEE2E2;color:#DC2626;border:none;border-radius:7px;width:28px;height:28px;font-size:14px;cursor:pointer;font-weight:900;flex-shrink:0">X</button>'+
+      '</div>'+
+      '<div class="bamt" style="margin-top:8px">'+
+      '<span style="color:'+dueColor+';font-size:12px;font-weight:900">'+dueLabel+'</span>'+
+      '<span style="font-size:20px;font-weight:900;color:#FBBF24">'+Rs(b.grandTotal)+'</span>'+
+      '</div>'+
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">'+
+      '<button onclick="reprintSaved(\''+safeNo+'\')" style="padding:9px;background:linear-gradient(135deg,#1e40af,#1d4ed8);color:#fff;border:none;border-radius:8px;font-weight:900;font-size:12px;cursor:pointer;text-transform:uppercase;letter-spacing:.4px">&#128247; View / Print</button>'+
+      '<button onclick="reshareWA(\''+safeNo+'\')" style="padding:9px;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;border:none;border-radius:8px;font-weight:900;font-size:12px;cursor:pointer;text-transform:uppercase;letter-spacing:.4px">&#128172; WhatsApp</button>'+
+      '</div>'+
+      '</div>';
+  }).join('');
+}
+var _deletedBill=null, _deletedBillTimer=null;
+function deleteSaved(i){
+  _deletedBill={data:savedBills[i],idx:i};
+  savedBills.splice(i,1); saveState(); renderSaved();
+  // Show undo toast
+  var t=document.getElementById('toast');
+  t.innerHTML='Deleted <button onclick="undoDeleteBill()" style="margin-left:10px;padding:2px 10px;background:#1e40af;color:#fff;border:none;border-radius:6px;font-weight:900;font-size:12px;cursor:pointer">UNDO</button>';
+  t.style.background='#FEE2E2'; t.style.color='#DC2626'; t.style.display='block';
+  clearTimeout(t._t); clearTimeout(_deletedBillTimer);
+  _deletedBillTimer=setTimeout(function(){ _deletedBill=null; t.style.display='none'; },5000);
+  t._t=_deletedBillTimer;
+}
+function undoDeleteBill(){
+  if(!_deletedBill) return;
+  clearTimeout(_deletedBillTimer); _deletedBillTimer=null;
+  savedBills.splice(_deletedBill.idx,0,_deletedBill.data);
+  _deletedBill=null;
+  saveState(); renderSaved(); toast('Bill restored ✓');
+}
+function exportBillsCSV(){
+  if(!savedBills.length){toast('No saved bills to export.',false);return;}
+  // Improvement D: added Discount, GST Rate, GST Amount columns to CSV export
+  var rows=[['Bill No','Date','Customer Name','Mobile','Address','Items','Sub-Total','Transport','Loading','Discount','GST Rate (%)','GST Amount','Grand Total','Paid','Balance Due','Vehicle No','Driver','From','To']];
+  savedBills.forEach(function(b){
+    var subTotalRaw=(b.grandTotal-(b.transport||0)-(b.loading||0)+(b.discount||0)-(b.gstAmt||0));
+    rows.push([
+      b.billNo, b.date,
+      '"'+(b.customer.name||'').replace(/"/g,"''") +'"',
+      b.customer.mob,
+      '"'+(b.customer.addr||'').replace(/"/g,"''")+'"',
+      b.items.length,
+      subTotalRaw.toFixed(2),
+      (b.transport||0), (b.loading||0),
+      (b.discount||0),
+      b.gstEnabled?(b.gstRate||0):0,
+      (b.gstAmt||0),
+      b.grandTotal, b.paid, b.due,
+      b.vehNo||'', b.vehDriver||'', b.vehFrom||'', b.vehTo||''
+    ]);
+  });
+  var csv=rows.map(function(r){return r.join(',');}).join('\n');
+  var blob=new Blob([csv],{type:'text/csv'});
+  var fname='WoodDepot_Bills_'+new Date().toISOString().slice(0,10)+'.csv';
+  iosAwareDownload(blob,fname,'text/csv');
+  toast('Exported '+savedBills.length+' bills to CSV ✓');
+}
+// M7 fix: look up saved bill by billNo instead of array index — index becomes stale after delete+undo
+function _findSavedBill(billNo){
+  for(var i=0;i<savedBills.length;i++){
+    if(savedBills[i].billNo===billNo) return savedBills[i];
+  }
+  return null;
+}
+function reprintSaved(billNo){
+  var snap=_findSavedBill(billNo);
+  if(!snap){toast('Bill not found',false);return;}
+  // BUG 3 fix: debounce to prevent parallel PDF builds from double-tap
+  if(reprintSaved._busy){toast('Please wait…',false);return;}
+  reprintSaved._busy=true;
+  setTimeout(function(){reprintSaved._busy=false;},5000);
+  showLoader('Building bill image…');
+  setTimeout(function(){
+    try{
+      var c=buildBillCanvas(snap);
+      hideLoader();
+      showPreview(c,'WoodDepot_Bill_'+snap.billNo+'.png');
+    } catch(e){ hideLoader(); reprintSaved._busy=false; toast('Error: '+e.message,false); }
+  },100);
+}
+
+// H3 fix: WhatsApp reshare directly from saved bills
+function reshareWA(billNo){
+  var snap=_findSavedBill(billNo);
+  if(!snap){toast('Bill not found',false);return;}
+  // BUG 3 fix: debounce to prevent parallel PDF builds from double-tap
+  if(reshareWA._busy){toast('Please wait…',false);return;}
+  reshareWA._busy=true;
+  setTimeout(function(){reshareWA._busy=false;},5000);
+
+  var waText=buildWATextFromSnap(snap);
+  var canShareFiles=!!(navigator.share&&navigator.canShare);
+
+  if(!canShareFiles){ _waOpenText(snap.customer.mob,waText); return; }
+
+  showLoader('Building bill PDF…');
+  setTimeout(function(){
+    try{
+      var canvas=buildBillCanvas(snap);
+      var pages=canvas._pages||[canvas];
+      var jsPDF=window.jspdf&&window.jspdf.jsPDF;
+      if(jsPDF){
+        var pdf=new jsPDF({orientation:'portrait',unit:'pt',format:'a4'});
+        var A4W=595.28,A4H=841.89;
+        function addPgR(idx){
+          if(idx>=pages.length){
+            hideLoader();
+            var pdfBlob=pdf.output('blob');
+            var pdfFile=new File([pdfBlob],'WoodDepot_Bill_'+snap.billNo+'.pdf',{type:'application/pdf'});
+            _waShareFile(pdfFile,waText,snap.customer.mob);
+            return;
+          }
+          var sc=document.createElement('canvas');
+          sc.width=794; sc.height=1123;
+          sc.getContext('2d').drawImage(pages[idx],0,0,794,1123);
+          sc.toBlob(function(blob){
+            var rd=new FileReader();
+            rd.onload=function(){
+              if(idx>0) pdf.addPage();
+              pdf.addImage(rd.result,'JPEG',0,0,A4W,A4H,undefined,'FAST');
+              addPgR(idx+1);
+            };
+            rd.readAsDataURL(blob);
+          },'image/jpeg',0.92);
+        }
+        addPgR(0);
+      } else {
+        hideLoader();
+        pages[0].toBlob(function(blob){
+          var imgFile=new File([blob],'WoodDepot_Bill_'+snap.billNo+'.png',{type:'image/png'});
+          _waShareFile(imgFile,waText,snap.customer.mob);
+        },'image/png');
+      }
+    }catch(err){ hideLoader(); reshareWA._busy=false; toast('Error: '+err.message,false); }
+  },80);
+}
+
+// Build WA text from a saved snapshot (mirrors buildWAText but reads from snap object)
+function buildWATextFromSnap(snap){
+  var SEP='━━━━━━━━━━━━━━━━━━━━━━━━';
+  var dp=snap.date.split('/');
+  var billDate=snap.date;
+  var vehNo=snap.vehNo||''; var vehDriver=snap.vehDriver||'';
+  var vehFrom=snap.vehFrom||''; var vehTo=snap.vehTo||'';
+  var hasVehS=!!(vehNo||vehDriver||vehTo);
+  var gt=snap.items.reduce(function(s,e){return s+e.amt;},0);
+  var tr=snap.transport||0, ld=snap.loading||0, disc=snap.discount||0;
+  var gstAmt=snap.gstAmt||0, gstTypeS=snap.gstType||'cgst_sgst', gstRateS=snap.gstRate||12;
+  var finalTotal=snap.grandTotal, paid=snap.paid, due=snap.due;
+  var dueDateRaw=snap.dueDate||'';
+  var dueDateStr='', dueDaysStr='';
+  if(dueDateRaw&&due>0){
+    var ddp=dueDateRaw.split('-');
+    dueDateStr=ddp[2]+'/'+ddp[1]+'/'+ddp[0];
+    var dL=new Date(+ddp[0],+ddp[1]-1,+ddp[2]);
+    var dT=new Date(); dT.setHours(0,0,0,0);
+    var diff=Math.round((dL-dT)/(1000*60*60*24));
+    dueDaysStr=diff>0?' ('+diff+' days)':diff===0?' (Due Today!)':' (Overdue '+Math.abs(diff)+'d)';
+  }
+  var lines=[];
+  lines.push(SEP);
+  lines.push('🪵 *'+shopSettings.shopName+'*');
+  lines.push('📍 '+shopSettings.addr1);
+  lines.push('📞 '+shopSettings.mob);
+  if(shopSettings.gstin) lines.push('🔖 GSTIN: '+shopSettings.gstin);
+  lines.push(SEP); lines.push('');
+  lines.push('📄 *BILL / INVOICE*');
+  lines.push(SEP);
+  lines.push('🔢 Bill No  : *'+snap.billNo+'*');
+  lines.push('📅 Date     : '+billDate);
+  lines.push(SEP); lines.push('');
+  lines.push('👤 *CUSTOMER DETAILS*');
+  lines.push('Name    : '+snap.customer.name);
+  if(snap.customer.mob) lines.push('Mobile  : '+snap.customer.mob);
+  lines.push('Address : '+snap.customer.addr);
+  if(hasVehS){
+    lines.push(''); lines.push('🚛 *VEHICLE DETAILS*');
+    if(vehNo)           lines.push('Veh No  : '+vehNo);
+    if(vehDriver)       lines.push('Driver  : '+vehDriver);
+    if(vehFrom||vehTo)  lines.push('Route   : '+(vehFrom||'?')+' → '+(vehTo||'?'));
+  }
+  lines.push(SEP); lines.push('');
+  lines.push('📦 *ITEMS*'); lines.push('');
+  snap.items.forEach(function(e,i){
+    var typeLbl=e.type==='sawn'?'Sawn Timber':e.type==='round'?'Round Log':'Fire Wood';
+    lines.push('*'+(i+1)+'. '+e.name+' ('+typeLbl+')*');
+    if(e.type==='sawn'){
+      lines.push('   📐 '+e.w+'" × '+e.t+'" × '+e.l+'ft × '+e.pcs+' pcs');
+      lines.push('   📊 Total CFT : '+e.tcft.toFixed(3));
+      lines.push('   💰 Rate      : '+Rs(e.rate)+'/CFT');
+    } else if(e.type==='round'){
+      lines.push('   📐 Girth: '+e.g+'" × Len: '+e.l+'ft × '+e.pcs+' logs');
+      lines.push('   📊 Total CFT : '+e.tcft.toFixed(3));
+      lines.push('   💰 Rate      : '+Rs(e.rate)+'/CFT');
+    } else {
+      lines.push('   📐 '+e.kg+'kg × '+e.pcs+' loads');
+      lines.push('   📊 Total Qtl : '+e.tq.toFixed(3));
+      lines.push('   💰 Rate      : '+Rs(e.rate)+'/Qtl');
+    }
+    lines.push('   💵 Amount    : *'+Rs(e.amt)+'*');
+    lines.push('');
+  });
+  lines.push(SEP); lines.push('📊 *PAYMENT SUMMARY*'); lines.push(SEP);
+  lines.push('Items Sub-Total  : '+Rs(gt));
+  if(tr>0) lines.push('🚛 Transport     : '+Rs(tr));
+  if(ld>0) lines.push('🏗 Loading       : '+Rs(ld));
+  if(disc>0) lines.push('🏷 Discount      : - '+Rs(disc));
+  if(snap.gstEnabled&&gstAmt>0){
+    if(gstTypeS==='cgst_sgst'){
+      lines.push('🧾 CGST ('+(gstRateS/2)+'%)     : '+Rs(gstAmt/2));
+      lines.push('🧾 SGST ('+(gstRateS/2)+'%)     : '+Rs(gstAmt/2));
+    } else { lines.push('🧾 IGST ('+gstRateS+'%)      : '+Rs(gstAmt)); }
+  }
+  lines.push(SEP);
+  lines.push('💰 *GRAND TOTAL  : '+Rs(finalTotal)+'*');
+  lines.push(SEP);
+  lines.push('✅ Amount Paid   : '+Rs(paid));
+  lines.push((due>0?'🔴':'🟢')+' *Balance Due  : '+Rs(due)+'*');
+  if(due>0&&dueDateStr) lines.push('📅 Due Date      : '+dueDateStr+dueDaysStr);
+  lines.push(SEP); lines.push('');
+  lines.push('💬 _Amount in Words:_');
+  var words='_Rupees '+numberToWords(finalTotal)+'_';
+  var mid=Math.floor(words.length/2);
+  var sp=words.lastIndexOf(' ',mid);
+  if(sp<10) sp=words.indexOf(' ',mid);
+  if(sp>0&&words.length>50){ lines.push(words.slice(0,sp)); lines.push(words.slice(sp+1)); }
+  else lines.push(words);
+  lines.push('');
+  lines.push(SEP);
+  lines.push('🙏 *Thank you for your business!*');
+  lines.push('_Goods once sold are not returnable._');
+  lines.push('_For queries call: '+shopSettings.mob+'_');
+  lines.push(SEP);
+  return lines.join('\n');
+}
+
+
+
+// ── BUILD SESSION CANVAS (A4, full-page, large fonts, 20/page, paginated) ──
+function buildSessionCanvas(){
+  var A4W=1240, A4H=1754, mg=48;
+
+  // helpers
+  function makeCanvas(){
+    var c=document.createElement('canvas');
+    c.width=A4W; c.height=A4H;
+    var x=c.getContext('2d');
+    x.fillStyle='#fff'; x.fillRect(0,0,A4W,A4H);
+    return {canvas:c,ctx:x};
+  }
+  function sf(ctx,sz,bold){ ctx.font=(bold?'bold ':'')+sz+'px Arial,sans-serif'; }
+  function blk(ctx,x,y,w,h){ ctx.fillStyle='#000'; ctx.fillRect(x,y,w,h); }
+  function bt(ctx,s,x,y,sz,al,col){ sf(ctx,sz,true); ctx.fillStyle=col||'#000'; ctx.textAlign=al||'left'; ctx.fillText(s,x,y); }
+  function nt(ctx,s,x,y,sz,al,col){ sf(ctx,sz,false); ctx.fillStyle=col||'#000'; ctx.textAlign=al||'left'; ctx.fillText(s,x,y); }
+  function wt(ctx,s,x,y,sz,al){ sf(ctx,sz,true); ctx.fillStyle='#fff'; ctx.textAlign=al||'left'; ctx.fillText(s,x,y); }
+  function hline(ctx,y,lw){
+    ctx.save(); ctx.strokeStyle='#000'; ctx.lineWidth=lw||1.5;
+    ctx.beginPath(); ctx.moveTo(mg,y); ctx.lineTo(A4W-mg,y); ctx.stroke(); ctx.restore();
+  }
+
+  var totAmt=session.reduce(function(s,e){return s+e.amt;},0);
+  var totCft=session.reduce(function(s,e){return s+(e.tcft||0);},0);
+
+  // layout constants
+  var HH=100; // header bar height
+  var TH=32;  // table header row height
+  var RH=58;  // data row height — 20 rows/page
+  var ROWS_PER_PAGE=20;
+
+  // columns: #, Product & Type, Dimensions, Vol/CFT, Rate, Amount
+  var COL=[mg, mg+68, mg+400, mg+660, mg+820, mg+990, A4W-mg];
+  var HDR=['#','PRODUCT NAME & TYPE','DIMENSIONS / MEASURE','TOTAL CFT','RATE','AMOUNT'];
+
+  // page 1: header + meta line + tableHdr + 20 rows + footer(totals)
+  // page N: header + tableHdr + 20 rows [+ footer on last]
+  var HDR_H=HH+14+28+14; // header bar + gap + meta line + gap
+  var FOOTER_H=90; // totals bar + sign line
+  var P1_AVAIL=A4H-mg-HDR_H-TH-FOOTER_H;
+  var PN_AVAIL=A4H-mg-HH-14-TH-FOOTER_H;
+  // force exactly 20 rows per page regardless
+  var totalPages=Math.ceil(session.length/ROWS_PER_PAGE);
+  if(totalPages<1) totalPages=1;
+
+  function drawSessionHeader(ctx,pageNum,totalPages){
+    blk(ctx,mg,mg,A4W-2*mg,HH);
+    wt(ctx,shopSettings.shopName,mg+20,mg+40,26);
+    sf(ctx,14,false); ctx.fillStyle='#ddd'; ctx.textAlign='left';
+    ctx.fillText(shopSettings.tagline+'  |  '+shopSettings.addr2,mg+20,mg+62);
+    ctx.fillText(shopSettings.addr1+' — MOB: '+shopSettings.mob,mg+20,mg+80);
+    // GSTIN bold white
+    sf(ctx,14,true); ctx.fillStyle='#FBBF24'; ctx.textAlign='left';
+    ctx.fillText('GSTIN: '+shopSettings.gstin,mg+20,mg+98);
+    wt(ctx,'SESSION REPORT',A4W-mg-20,mg+35,22,'right');
+    sf(ctx,14,false); ctx.fillStyle='#eee'; ctx.textAlign='right';
+    var nowStr=new Date().toLocaleDateString('en-IN')+' '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+    ctx.fillText('Date & Time: '+nowStr,A4W-mg-20,mg+60);
+    if(totalPages>1) ctx.fillText('Page '+pageNum+' / '+totalPages,A4W-mg-20,mg+82);
+    var y=mg+HH+14;
+    // meta bar
+    bt(ctx,'Total Items: '+session.length,mg,y,17,'left');
+    bt(ctx,'Total CFT: '+totCft.toFixed(3),mg+280,y,17,'left');
+    bt(ctx,'Grand Total: '+Rs(totAmt),A4W-mg,y,18,'right');
+    return y+28;
+  }
+
+  function drawSessionTableHeader(ctx,y){
+    blk(ctx,mg,y,A4W-2*mg,TH);
+    HDR.forEach(function(h,i){
+      var x=(i===5)?COL[6]-6:COL[i]+5;
+      var al=(i===5)?'right':'left';
+      sf(ctx,14,true); ctx.fillStyle='#fff'; ctx.textAlign=al;
+      ctx.fillText(h,x,y+TH-9);
+    });
+    return y+TH;
+  }
+
+  function drawColLines(ctx,yTop,yBot){
+    ctx.save(); ctx.strokeStyle='#bbb'; ctx.lineWidth=1;
+    for(var ci=1;ci<COL.length-1;ci++){
+      ctx.beginPath(); ctx.moveTo(COL[ci],yTop); ctx.lineTo(COL[ci],yBot); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  var pages=[];
+  var idx=0;
+  for(var pg=1;pg<=totalPages;pg++){
+    var p=makeCanvas();
+    var ctx=p.ctx;
+    var y=drawSessionHeader(ctx,pg,totalPages);
+    var tableStartY=y;
+    y=drawSessionTableHeader(ctx,y);
+    var rowStart=y;
+
+    for(var r=0;r<ROWS_PER_PAGE&&idx<session.length;r++,idx++){
+      var e=session[idx];
+      if(idx%2===1){ ctx.fillStyle='#f0f0f0'; ctx.fillRect(mg,y,A4W-2*mg,RH); }
+      ctx.fillStyle='#000';
+
+      // row #
+      bt(ctx,''+(idx+1),COL[0]+34,y+RH/2+7,15,'center');
+
+      // product + type
+      var tag=e.type==='sawn'?'SAWN':e.type==='round'?'ROUND':'FIREWOOD';
+      bt(ctx,e.name,COL[1]+5,y+20,17);
+      nt(ctx,tag+' · '+e.wood,COL[1]+5,y+39,13,'left','#555');
+
+      // dimensions
+      var dim1='',dim2='';
+      if(e.type==='sawn'){
+        dim1='W:'+e.w+'"  T:'+e.t+'"  L:'+e.l+'ft';
+        dim2=e.pcs+' pcs  |  CFT/pc: '+e.cft1.toFixed(3);
+      } else if(e.type==='round'){
+        dim1='Girth: '+e.g+'"   Len: '+e.l+'ft';
+        dim2=e.pcs+' logs  |  CFT/log: '+e.cft1.toFixed(3);
+      } else {
+        dim1=e.kg+' kg/load  x  '+e.pcs+' loads';
+        dim2='Total: '+e.tq.toFixed(3)+' Qtl';
+      }
+      bt(ctx,dim1,COL[2]+5,y+20,16);
+      nt(ctx,dim2,COL[2]+5,y+39,13,'left','#555');
+
+      // total CFT / Qtl
+      var vol=e.type==='firewood'?e.tq.toFixed(3):e.tcft.toFixed(3);
+      var ul=e.type==='firewood'?'Qtl':'CFT';
+      bt(ctx,vol,COL[3]+5,y+22,17);
+      nt(ctx,ul,COL[3]+5,y+40,12,'left','#777');
+
+      // rate
+      bt(ctx,Rs(e.rate),COL[4]+5,y+22,16);
+      nt(ctx,'/'+ul,COL[4]+5,y+40,12,'left','#777');
+
+      // amount
+      bt(ctx,Rs(e.amt),COL[6]-6,y+RH/2+7,18,'right');
+
+      // row separator
+      ctx.save(); ctx.strokeStyle='#ccc'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(mg,y+RH); ctx.lineTo(A4W-mg,y+RH); ctx.stroke();
+      ctx.restore();
+      y+=RH;
+    }
+
+    // table border + col lines
+    ctx.save(); ctx.strokeStyle='#000'; ctx.lineWidth=2;
+    ctx.strokeRect(mg,tableStartY,A4W-2*mg,y-tableStartY); ctx.restore();
+    drawColLines(ctx,tableStartY,y);
+
+    // footer on last page
+    if(pg===totalPages){
+      y+=14;
+      // totals bar
+      var tbW=520, tbX=A4W-mg-tbW;
+      blk(ctx,tbX,y,tbW,44);
+      wt(ctx,'TOTAL CFT: '+totCft.toFixed(3),tbX+14,y+29,18);
+      wt(ctx,'GRAND TOTAL: '+Rs(totAmt),tbX+tbW-14,y+29,20,'right');
+      y+=58;
+      hline(ctx,y,1.5); y+=18;
+      bt(ctx,'Authorised Signatory (Wood Depot / GPC Group)',mg,y,14);
+      bt(ctx,"Receiver's Signature & Stamp",A4W-mg,y,14,'right');
+    }
+
+    pages.push(p.canvas);
+  }
+
+  if(pages.length===1) return pages[0];
+
+  // stack pages with separator
+  var GAP=20;
+  var combined=document.createElement('canvas');
+  combined.width=A4W; combined.height=pages.length*A4H+(pages.length-1)*GAP;
+  var cctx=combined.getContext('2d');
+  cctx.fillStyle='#ccc'; cctx.fillRect(0,0,combined.width,combined.height);
+  pages.forEach(function(pg,i){ cctx.drawImage(pg,0,i*(A4H+GAP)); });
+  combined._pages=pages;
+  return combined;
+}
+
+// ── BUILD BILL CANVAS (A4, full-page, large readable fonts, auto-paginate) ──
+function buildBillCanvas(snap){
+  // A4 at 150dpi: 1240 x 1754 px per page — sharp and fills the page
+  var A4W=1240, A4H=1754;
+  var mg=48; // margin px
+
+  // Accept snapshot object OR read from live DOM
+  var custName = snap ? snap.customer.name      : v('custName').value.trim();
+  var custMob  = snap ? snap.customer.mob       : normMob(v('custMob').value);
+  var custAddr = snap ? snap.customer.addr      : v('custAddr').value.trim();
+  var billNo   = snap ? snap.billNo             : v('billNo').value;
+  var billDate = snap ? snap.date : (function(){
+    var raw=v('billDate').value;
+    if(!raw) return new Date().toLocaleDateString('en-IN');
+    var parts=raw.split('-');
+    if(parts.length===3) return parts[2]+'/'+parts[1]+'/'+parts[0]; // DD/MM/YYYY
+    return raw;
+  }());
+  var paid     = snap ? snap.paid               : parseFloat(v('paidAmt').value)||0;
+  var transport= snap ? snap.transport          : parseFloat(v('transportAmt').value)||0;
+  var loading  = snap ? snap.loading            : parseFloat(v('loadingAmt').value)||0;
+  var discount = snap ? (snap.discount||0)      : calcDiscountAmt((bill.reduce(function(s,e){return s+e.amt;},0))+( parseFloat(v('transportAmt').value)||0)+(parseFloat(v('loadingAmt').value)||0));
+  var gstAmtC  = snap ? (snap.gstAmt||0)       : calcGSTTotal((bill.reduce(function(s,e){return s+e.amt;},0))+(parseFloat(v('transportAmt').value)||0)+(parseFloat(v('loadingAmt').value)||0)-discount);
+  var gstTypeC = snap ? (snap.gstType||'cgst_sgst') : (v('gstType')?v('gstType').value:'cgst_sgst');
+  var gstRateC = snap ? (snap.gstRate||12)      : (parseFloat(v('gstRate').value)||12);
+  var billData = snap ? snap.items              : bill;
+  var rows     = billData; // M2 fix: use 'rows' to avoid shadowing the global 'bill' array
+  var gt       = rows.reduce(function(s,e){return s+e.amt;},0);
+  var gtTotal  = snap ? snap.grandTotal         : gt+transport+loading-discount+gstAmtC;
+  var due      = snap ? snap.due                : Math.max(0,gtTotal-paid);
+  var dueDate  = snap ? snap.dueDate            : v('dueDate').value;
+  var vehNo    = snap ? snap.vehNo              : v('vehNo').value.trim();
+  var vehDriver= snap ? snap.vehDriver          : v('vehDriver').value.trim();
+  var vehFrom  = snap ? snap.vehFrom            : v('vehFrom').value.trim();
+  var vehTo    = snap ? snap.vehTo              : v('vehTo').value.trim();
+  // C2 fix: vehFrom is always "CHOUDWAR, CUTTACK" — exclude from hasVeh check
+  // Only show vehicle block when user has actually filled VehNo, Driver, or Destination
+  var hasVeh=!!(vehNo||vehDriver||vehTo);
+  var hasCharges=(transport>0||loading>0);
+
+  function makeCanvas(){
+    var c=document.createElement('canvas');
+    c.width=A4W; c.height=A4H;
+    var x=c.getContext('2d');
+    x.fillStyle='#fff'; x.fillRect(0,0,A4W,A4H);
+    return {canvas:c, ctx:x};
+  }
+  function sf(ctx,sz,bold,italic){
+    ctx.font=(italic?'italic ':bold?'bold ':'')+sz+'px Arial,sans-serif';
+  }
+  function hline(ctx,y,lw){
+    ctx.save(); ctx.strokeStyle='#000'; ctx.lineWidth=lw||1.5;
+    ctx.beginPath(); ctx.moveTo(mg,y); ctx.lineTo(A4W-mg,y); ctx.stroke();
+    ctx.restore();
+  }
+  function blk(ctx,x,y,w,h){ ctx.fillStyle='#000'; ctx.fillRect(x,y,w,h); }
+  function bt(ctx,s,x,y,sz,al,color){
+    sf(ctx,sz,true); ctx.fillStyle=color||'#000';
+    ctx.textAlign=al||'left'; ctx.fillText(s,x,y);
+  }
+  function nt(ctx,s,x,y,sz,al,color){
+    sf(ctx,sz,false); ctx.fillStyle=color||'#000';
+    ctx.textAlign=al||'left'; ctx.fillText(s,x,y);
+  }
+  function wt(ctx,s,x,y,sz,al){
+    sf(ctx,sz,true); ctx.fillStyle='#fff';
+    ctx.textAlign=al||'left'; ctx.fillText(s,x,y);
+  }
+
+  // ── draw page header (reused on every page) ──
+  function drawPageHeader(ctx,pageNum,totalPages){
+    var hh=108;
+    blk(ctx,mg,mg,A4W-2*mg,hh);
+    wt(ctx,shopSettings.shopName,mg+20,mg+36,24);
+    sf(ctx,14,false); ctx.fillStyle='#ddd'; ctx.textAlign='left';
+    ctx.fillText(shopSettings.tagline+'  |  '+shopSettings.addr2,mg+20,mg+56);
+    ctx.fillText(shopSettings.addr1+'  |  MOB: '+shopSettings.mob,mg+20,mg+74);
+    // GSTIN — bold gold so it stands out for tax compliance
+    sf(ctx,14,true); ctx.fillStyle='#FBBF24'; ctx.textAlign='left';
+    ctx.fillText('GSTIN: '+shopSettings.gstin,mg+20,mg+94);
+    wt(ctx,'BILL / INVOICE',A4W-mg-20,mg+32,22,'right');
+    sf(ctx,15,false); ctx.fillStyle='#eee'; ctx.textAlign='right';
+    ctx.fillText('Bill No: '+billNo,A4W-mg-20,mg+54);
+    ctx.fillText('Date: '+billDate,A4W-mg-20,mg+75);
+    if(totalPages>1){
+      ctx.fillText('Page '+pageNum+' of '+totalPages,A4W-mg-20,mg+96);
+    }
+    return mg+hh+10;
+  }
+
+  // ── draw customer block (page 1 only) ──
+  function drawCustomer(ctx,y){
+    // Improvement H: use full width for address when no vehicle data.
+    // Also expand box height dynamically to fit longer addresses.
+    var addrMaxWidth = hasVeh ? (A4W-2*mg)/2-20 : (A4W-2*mg)-20;
+    // Pre-measure address line count
+    sf(ctx,13,false);
+    var addrWords=('Addr: '+custAddr).split(' ');
+    var addrLine='', addrLines=[];
+    for(var ai=0;ai<addrWords.length;ai++){
+      var test=addrLine+(addrLine?' ':'')+addrWords[ai];
+      if(ctx.measureText(test).width>addrMaxWidth&&addrLine!==''){addrLines.push(addrLine);addrLine=addrWords[ai];}
+      else addrLine=test;
+    }
+    if(addrLine) addrLines.push(addrLine);
+    var extraAddrH=Math.max(0,(addrLines.length-2)*16);
+    var ch=hasVeh?(110+extraAddrH):(96+extraAddrH);
+    ctx.save(); ctx.strokeStyle='#000'; ctx.lineWidth=1.5;
+    ctx.strokeRect(mg,y,A4W-2*mg,ch); ctx.restore();
+    var half=(A4W-2*mg)/2;
+    blk(ctx,mg,y,hasVeh?half:(A4W-2*mg),22);
+    wt(ctx,'BILL TO',mg+10,y+16,13);
+    if(hasVeh){
+      blk(ctx,mg+half,y,half,22); wt(ctx,'VEHICLE / TRANSPORT',mg+half+10,y+16,13);
+      ctx.save(); ctx.strokeStyle='#000'; ctx.lineWidth=1.5;
+      ctx.beginPath(); ctx.moveTo(mg+half,y+22); ctx.lineTo(mg+half,y+ch);
+      ctx.stroke(); ctx.restore();
+    }
+    // customer name (truncate if too long)
+    sf(ctx,19,true); ctx.fillStyle='#000'; ctx.textAlign='left';
+    var nameStr=custName.length>30?custName.slice(0,28)+'…':custName;
+    ctx.fillText(nameStr,mg+10,y+44);
+    sf(ctx,14,false); ctx.fillStyle='#333'; ctx.textAlign='left';
+    ctx.fillText('Mob: '+custMob,mg+10,y+62);
+    // wrap address using pre-measured lines
+    sf(ctx,13,false); ctx.fillStyle='#444';
+    addrLines.forEach(function(ln,idx){ ctx.fillText(ln,mg+10,y+78+idx*16); });
+    if(hasVeh){
+      if(vehNo){ sf(ctx,18,true);ctx.fillStyle='#000';ctx.textAlign='left';ctx.fillText('Veh No: '+vehNo,mg+half+10,y+44); }
+      if(vehDriver){ sf(ctx,14,false);ctx.fillStyle='#333';ctx.fillText('Driver: '+vehDriver,mg+half+10,y+62); }
+      if(vehFrom||vehTo){ sf(ctx,13,false);ctx.fillStyle='#444';ctx.fillText((vehFrom||'?')+' → '+(vehTo||'?'),mg+half+10,y+80); }
+    } else {
+      sf(ctx,15,false);ctx.fillStyle='#888';ctx.textAlign='left';ctx.fillText('N/A',mg+half+10,y+58);
+    }
+    return y+ch+10;
+  }
+
+  // H7 fix: use generic headers that work for all product types (Sawn / Round / Firewood)
+  // Instead of sawn-specific WIDTH"/THICK"/LEN, use neutral labels
+  var COL=[mg, mg+58, mg+240, mg+355, mg+450, mg+538, mg+622, mg+750, mg+900, A4W-mg];
+  var HDR=['#','PRODUCT NAME / TYPE','DIM 1','DIM 2','DIM 3 / LEN','QTY','VOL/PC','TOTAL VOL','RATE','AMOUNT'];
+  var TH=34;  // table header height
+  var RH=58;  // row height
+
+  function drawTableHeader(ctx,y){
+    blk(ctx,mg,y,A4W-2*mg,TH);
+    HDR.forEach(function(h,i){
+      var x=(i===9)?COL[9]-6:COL[i]+4;
+      var al=(i===9)?'right':'left';
+      sf(ctx,12,true); ctx.fillStyle='#fff'; ctx.textAlign=al;
+      ctx.fillText(h,x,y+TH-9);
+    });
+    return y+TH;
+  }
+
+  function drawColLines(ctx,yTop,yBot){
+    ctx.save(); ctx.strokeStyle='#bbb'; ctx.lineWidth=1;
+    for(var ci=1;ci<COL.length-1;ci++){
+      ctx.beginPath(); ctx.moveTo(COL[ci],yTop); ctx.lineTo(COL[ci],yBot); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // ── page layout maths ──
+  // Page 1: mg(48)+header(108+10)+customer(~110+10)+tableHdr(34)+13×RH(58=754)+footer(~630) = 1754 ✓
+  // Page 2+: mg(48)+header(108+10)+tableHdr(34)+20×RH(58=1160)+bottom_mg(48) ≈ 1408 (fits with room)
+  var ROWS_P1=13;   // page 1 leaves ~600px for the full footer block
+  var ROWS_PN=20;   // subsequent pages have no customer block or footer
+
+  var totalPages=1;
+  if(rows.length>ROWS_P1){
+    totalPages=1+Math.ceil((rows.length-ROWS_P1)/ROWS_PN);
+  }
+  if(totalPages<1) totalPages=1;
+
+  // ── build all page canvases ──
+  var pages=[];
+  var billIdx=0;
+  for(var pg=1;pg<=totalPages;pg++){
+    var p=makeCanvas();
+    var ctx=p.ctx;
+    var y=drawPageHeader(ctx,pg,totalPages);
+
+    if(pg===1){
+      y=drawCustomer(ctx,y);
+    }
+
+    var tableStartY=y;
+    y=drawTableHeader(ctx,y);
+
+    var rowsThisPage=(pg===1)?ROWS_P1:ROWS_PN;
+    var rowsDrawn=0;
+    while(billIdx<rows.length && rowsDrawn<rowsThisPage){
+      var e=rows[billIdx];
+      var isEven=(billIdx%2===1);
+      if(isEven){ ctx.fillStyle='#f0f0f0'; ctx.fillRect(mg,y,A4W-2*mg,RH); }
+      ctx.fillStyle='#000';
+
+      // row number
+      bt(ctx,''+(billIdx+1),COL[0]+30,y+RH/2+7,15,'center');
+
+      // product name + type tag (2 lines)
+      var tag=e.type==='sawn'?'SAWN':e.type==='round'?'ROUND':'FIREWOOD';
+      bt(ctx,e.name,COL[1]+4,y+20,15);
+      nt(ctx,tag+' · '+e.wood,COL[1]+4,y+38,12,'left','#555');
+
+      if(e.type==='sawn'){
+        // W T L Pcs each in own col
+        bt(ctx,''+e.w,COL[2]+4,y+RH/2+7,15);
+        bt(ctx,''+e.t,COL[3]+4,y+RH/2+7,15);
+        bt(ctx,''+e.l,COL[4]+4,y+RH/2+7,15);
+        bt(ctx,''+e.pcs,COL[5]+4,y+RH/2+7,15);
+        bt(ctx,e.cft1.toFixed(3),COL[6]+4,y+RH/2+7,14);
+        // Total CFT in own col
+        bt(ctx,e.tcft.toFixed(3),COL[7]+4,y+20,14);
+        nt(ctx,'cu.ft',COL[7]+4,y+37,11,'left','#777');
+        // Rate in own col
+        bt(ctx,Rs(e.rate),COL[8]+4,y+RH/2+7,13);
+      } else if(e.type==='round'){
+        nt(ctx,'G:'+e.g+'"',COL[2]+4,y+20,13);
+        nt(ctx,'L:'+e.l+'ft',COL[3]+4,y+20,13);
+        nt(ctx,'—',COL[4]+4,y+RH/2+7,12,'left','#bbb');
+        bt(ctx,''+e.pcs,COL[5]+4,y+20,15);
+        nt(ctx,'logs',COL[5]+4,y+38,11,'left','#777');
+        bt(ctx,e.cft1.toFixed(3),COL[6]+4,y+RH/2+7,14);
+        bt(ctx,e.tcft.toFixed(3),COL[7]+4,y+20,14);
+        nt(ctx,'cu.ft',COL[7]+4,y+37,11,'left','#777');
+        bt(ctx,Rs(e.rate),COL[8]+4,y+RH/2+7,13);
+      } else {
+        // Firewood — use W col for kg/load, L col for quintal, mark others N/A
+        nt(ctx,e.kg+'kg/load',COL[2]+4,y+20,12);
+        nt(ctx,'—',COL[3]+4,y+RH/2+7,12,'left','#bbb');
+        nt(ctx,'—',COL[4]+4,y+RH/2+7,12,'left','#bbb');
+        bt(ctx,''+e.pcs,COL[5]+4,y+20,15);
+        nt(ctx,'loads',COL[5]+4,y+38,11,'left','#777');
+        nt(ctx,'—',COL[6]+4,y+RH/2+7,12,'left','#bbb');
+        bt(ctx,e.tq.toFixed(3),COL[7]+4,y+20,14);
+        nt(ctx,'Qtl',COL[7]+4,y+37,11,'left','#777');
+        bt(ctx,Rs(e.rate)+'/Qtl',COL[8]+4,y+RH/2+7,12);
+      }
+
+      // amount — right aligned, bold
+      bt(ctx,Rs(e.amt),COL[9]-6,y+RH/2+7,17,'right');
+
+      // row separator
+      ctx.save(); ctx.strokeStyle='#ccc'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(mg,y+RH); ctx.lineTo(A4W-mg,y+RH); ctx.stroke();
+      ctx.restore();
+
+      y+=RH; billIdx++; rowsDrawn++;
+    }
+
+    // table border + column lines
+    ctx.save(); ctx.strokeStyle='#000'; ctx.lineWidth=2;
+    ctx.strokeRect(mg,tableStartY,A4W-2*mg,y-tableStartY);
+    ctx.restore();
+    drawColLines(ctx,tableStartY,y);
+
+    // footer: only on last page
+    if(pg===totalPages){
+      y+=14;
+
+      // TOTALS BOX — wider (520px), grand total and balance due rows are taller
+      var tbW=520, tbX=A4W-mg-tbW;
+      var trh=36;   // normal row height
+      var trh2=52;  // grand total / balance due row height (bigger emphasis)
+      var totRowCount=2+(hasCharges?((transport>0?1:0)+(loading>0?1:0)):0)+(discount>0?1:0)+(gstAmtC>0?(gstTypeC==='cgst_sgst'?2:1):0)+(due>0&&dueDate?1:0);
+      var tbH=totRowCount*trh+trh2*2;
+      ctx.save(); ctx.strokeStyle='#000'; ctx.lineWidth=2;
+      ctx.strokeRect(tbX,y,tbW,tbH); ctx.restore();
+
+      var totY=y;
+      function totRow(label,val,isBold,isInvert,rowH){
+        var rh=rowH||trh;
+        if(isInvert){
+          blk(ctx,tbX,totY,tbW,rh);
+          sf(ctx,16,true); ctx.fillStyle='#fff'; ctx.textAlign='left';
+          ctx.fillText(label,tbX+14,totY+rh-13);
+          sf(ctx,20,true); ctx.fillStyle='#FBBF24'; ctx.textAlign='right';
+          ctx.fillText(val,tbX+tbW-14,totY+rh-13);
+        } else {
+          sf(ctx,isBold?15:14,isBold); ctx.fillStyle='#000';
+          ctx.textAlign='left'; ctx.fillText(label,tbX+14,totY+rh-11);
+          sf(ctx,isBold?16:15,isBold); ctx.textAlign='right'; ctx.fillText(val,tbX+tbW-14,totY+rh-11);
+        }
+        totY+=rh;
+        ctx.save(); ctx.strokeStyle='#ccc'; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.moveTo(tbX,totY); ctx.lineTo(tbX+tbW,totY); ctx.stroke();
+        ctx.restore();
+      }
+
+      totRow('Items Sub-Total:',Rs(gt),false,false);
+      if(hasCharges){
+        if(transport>0) totRow('Transport Charges:',Rs(transport),false,false);
+        if(loading>0)   totRow('Loading Charges:',Rs(loading),false,false);
+      }
+      if(discount>0)  totRow('Discount:','-'+Rs(discount),false,false);
+      if(gstAmtC>0){
+        if(gstTypeC==='cgst_sgst'){
+          totRow('CGST ('+(gstRateC/2)+'%):',Rs(gstAmtC/2),false,false);
+          totRow('SGST ('+(gstRateC/2)+'%):',Rs(gstAmtC/2),false,false);
+        } else {
+          totRow('IGST ('+gstRateC+'%):',Rs(gstAmtC),false,false);
+        }
+      }
+      totRow('GRAND TOTAL',Rs(gtTotal),true,true,trh2);
+      totRow('Amount Paid:',Rs(paid),false,false);
+      totRow('BALANCE DUE:',Rs(due),true,true,trh2);
+      if(due>0&&dueDate){
+        var ddParts=dueDate.split('-'),ddLocal=new Date(+ddParts[0],+ddParts[1]-1,+ddParts[2]);
+        var ddToday=new Date(); ddToday.setHours(0,0,0,0);
+        var diff=Math.round((ddLocal-ddToday)/(1000*60*60*24));
+        var ddl=diff>0?'Due by: '+ddLocal.toLocaleDateString('en-IN')+' ('+diff+' days)':diff===0?'⚠ DUE TODAY!':'⚠ OVERDUE '+Math.abs(diff)+'d!';
+        totRow(ddl,'',false,false);
+      }
+      y=totY;
+
+      // Amount in Words — left of totals box
+      var amtBoxW=tbX-mg-16;
+      ctx.save();
+      ctx.fillStyle='#F8F4EE'; ctx.fillRect(mg,y-tbH,amtBoxW,tbH);
+      ctx.strokeStyle='#C4956A'; ctx.lineWidth=1.5;
+      ctx.strokeRect(mg,y-tbH,amtBoxW,tbH);
+      ctx.restore();
+      sf(ctx,13,true); ctx.fillStyle='#2C1810'; ctx.textAlign='left';
+      ctx.fillText('Amount in Words:',mg+10,y-tbH+22);
+      sf(ctx,14,false); ctx.fillStyle='#1A1008';
+      canvasWrapText(ctx,'Rupees '+numberToWords(gtTotal),mg+10,y-tbH+42,amtBoxW-20,20);
+
+      y+=18;
+      hline(ctx,y,2); y+=18;
+
+      // TERMS & CONDITIONS — shaded box, properly wrapped, readable 14px font
+      var terms=[
+        '1. All timber/wood products are sold subject to availability and in accordance with the rules and regulations of OFDC Ltd, Odisha.',
+        '2. Goods, once sold and delivered, cannot be returned or exchanged under any circumstances.',
+        '3. Full payment must be made before or at the time of delivery. No credit shall be extended without prior written approval from management.',
+        '4. The buyer is solely responsible for all transportation, loading/unloading charges from the point of delivery onwards.',
+        '5. OFDC Ltd / Wood Depot shall not be held liable for any damage, loss, or shortfall after the goods leave the depot premises.',
+        '6. The buyer must verify quantity, species, and measurement at the time of delivery. No claims will be entertained after departure.',
+      ];
+      var tcLineH=20, tcBoxX=mg, tcBoxW=A4W-2*mg, tcTitleH=30;
+      sf(ctx,14,false);
+      // pre-calculate total height
+      var totalTCLines=0;
+      terms.forEach(function(t){
+        var words=t.split(' '),line='',lc=0;
+        words.forEach(function(w){
+          var test=line+(line?' ':'')+w;
+          if(ctx.measureText(test).width>tcBoxW-28&&line!==''){lc++;line=w;}else{line=test;}
+        });
+        totalTCLines+=lc+1;
+      });
+      var tcBoxH=tcTitleH+totalTCLines*tcLineH+20;
+      // draw shaded background
+      ctx.save();
+      ctx.fillStyle='#F8F4EE'; ctx.fillRect(tcBoxX,y,tcBoxW,tcBoxH);
+      ctx.strokeStyle='#C4956A'; ctx.lineWidth=1.5;
+      ctx.strokeRect(tcBoxX,y,tcBoxW,tcBoxH);
+      ctx.restore();
+      // title bar
+      ctx.fillStyle='#2C1810'; ctx.fillRect(tcBoxX,y,tcBoxW,tcTitleH);
+      sf(ctx,14,true); ctx.fillStyle='#fff'; ctx.textAlign='left';
+      ctx.fillText('TERMS & CONDITIONS  (As per OFDC Ltd – Odisha Forest Development Corporation Ltd)',tcBoxX+12,y+tcTitleH-9);
+      y+=tcTitleH+12;
+      sf(ctx,14,false); ctx.fillStyle='#1A1008'; ctx.textAlign='left';
+      terms.forEach(function(t){
+        var linesDrawn=canvasWrapText(ctx,t,tcBoxX+14,y,tcBoxW-28,tcLineH);
+        y+=linesDrawn*tcLineH+5;
+      });
+      y+=10;
+
+      hline(ctx,y,1.5); y+=22;
+      bt(ctx,'Authorised Signatory (Wood Depot / GPC Group)',mg,y,14);
+      bt(ctx,"Receiver's Signature & Stamp",A4W-mg,y,14,'right');
+      y+=44;
+      hline(ctx,y,1); y+=16;
+      sf(ctx,13,false); ctx.fillStyle='#555'; ctx.textAlign='center';
+      ctx.fillText('Thank you for your purchase. — '+shopSettings.shopName+'  |  GSTIN: '+shopSettings.gstin+'  |  MOB: '+shopSettings.mob,A4W/2,y);
+    }
+
+    pages.push(p.canvas);
+  }
+
+  // If single page, return it directly
+  if(pages.length===1) return pages[0];
+
+  // Multi-page: stack all pages vertically with 20px gap (white separator)
+  var GAP=20;
+  var totalH=pages.length*A4H+(pages.length-1)*GAP;
+  var combined=document.createElement('canvas');
+  combined.width=A4W; combined.height=totalH;
+  var cctx=combined.getContext('2d');
+  cctx.fillStyle='#e0e0e0'; cctx.fillRect(0,0,A4W,totalH);
+  pages.forEach(function(pg,i){
+    cctx.drawImage(pg,0,i*(A4H+GAP));
+  });
+  // store pages array for multi-page PDF export
+  combined._pages=pages;
+  return combined;
+}
+
+function showPreview(canvas, fname){
+  _canvas=canvas;
+  _fname=fname;
+  var pc=v('previewCanvas');
+  pc.width=canvas.width;
+  pc.height=canvas.height;
+  pc.style.width='100%';
+  pc.style.height='auto';
+  pc.getContext('2d').drawImage(canvas,0,0);
+  v('previewModal').classList.add('show');
+}
+
+function generateSession(){
+  if(!session.length){toast('No entries!',false);return;}
+  showLoader('Building image…');
+  setTimeout(function(){
+    try{
+      var c=buildSessionCanvas();
+      hideLoader();
+      showPreview(c,'WoodDepot_Session_'+Date.now()+'.png');
+    } catch(e){hideLoader();toast('Error: '+e.message,false);}
+  },100);
+}
+function generateBill(){
+  var n=v('custName').value.trim(),m=normMob(v('custMob').value),a=v('custAddr').value.trim();
+  if(!n||!a||!isValidMob(m)){toast('Fill valid customer details first',false);return;}
+  if(!bill.length){toast('No bill items!',false);return;}
+  showLoader('Building bill image…');
+  setTimeout(function(){
+    try{
+      var c=buildBillCanvas();
+      hideLoader();
+      showPreview(c,'WoodDepot_Bill_'+v('billNo').value+'.png');
+    } catch(e){hideLoader();toast('Error: '+e.message,false);}
+  },100);
+}
+
+v('sessImgBtn').addEventListener('click',generateSession);
+v('billImgBtn').addEventListener('click',generateBill);
+
+// ── MODAL CLOSE ────────────────────────────────────────────────────
+v('modalClose').addEventListener('click',function(){
+  v('previewModal').classList.remove('show');
+  // Fix 12: release canvas memory — large canvases (up to 26MB) held here
+  _canvas=null; _fname=null;
+  var pc=v('previewCanvas');
+  if(pc){ pc.width=1; pc.height=1; }
+});
+
+// ── SAVE PNG ───────────────────────────────────────────────────────
+// For multi-page: save each A4 page as a separate PNG file sequentially
+function savePagesAsPNG(pages, baseName){
+  var idx=0;
+  function saveNext(){
+    if(idx>=pages.length) return;
+    var pg=pages[idx];
+    var suffix=pages.length>1?'_p'+(idx+1):'';
+    var fname=(baseName||'WoodDepot').replace(/\.png$/i,'')+suffix+'.png';
+    pg.toBlob(function(blob){
+      if(!blob){ toast('Save failed on page '+(idx+1),false); return; }
+      iosAwareDownload(blob,fname,'image/png');
+      idx++;
+      setTimeout(saveNext, 500);
+    },'image/png');
+  }
+  saveNext();
+  toast('Saving '+(pages.length>1?pages.length+' PNG pages…':'PNG…'));
+}
+
+v('btnSave').addEventListener('click',function(){
+  if(!_canvas){toast('No image',false);return;}
+  var pages=_canvas._pages||[_canvas];
+  savePagesAsPNG(pages, _fname);
+});
+
+// ── SHARE ──────────────────────────────────────────────────────────
+v('btnShare').addEventListener('click',function(){
+  if(!_canvas){toast('No image',false);return;}
+  var pages=_canvas._pages||[_canvas];
+  // Share first page (or only page); multi-page share not universally supported
+  var pg=pages[0];
+  pg.toBlob(function(blob){
+    if(!blob){toast('Could not create image',false);return;}
+    var fname=(_fname||'WoodDepot.png').replace(/\.png$/i,'')+(pages.length>1?'_p1':'')+'.png';
+    var file=new File([blob],fname,{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){
+      navigator.share({title:'Wood Depot',files:[file]}).catch(function(err){
+        if(err.name!=='AbortError') toast('Share failed: '+err.message,false);
+      });
+    } else {
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a');
+      a.href=url; a.download=fname;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){URL.revokeObjectURL(url);},8000);
+      toast('Saved!'+(pages.length>1?' (Use Save PNG for all pages)':''));
+    }
+  },'image/png');
+});
+
+// ── SAVE PDF ───────────────────────────────────────────────────────
+v('btnPDF').addEventListener('click',function(){
+  if(!_canvas){toast('Generate image first!',false);return;}
+  // Fix 3: warn if jsPDF failed to load (offline / CDN blocked)
+  if(window._jsPDFFailed){toast('⚠ PDF library not loaded — check your internet connection. Using print-to-PDF fallback.',false);}
+
+  showLoader('Generating PDF…');
+  var jsPDF=window.jspdf&&window.jspdf.jsPDF;
+  var pages=_canvas._pages||[_canvas];
+  var A4pt_W=595.28, A4pt_H=841.89;
+
+  if(jsPDF){
+    try{
+      var pdf=new jsPDF({orientation:'portrait',unit:'pt',format:'a4'});
+      function addPage(idx){
+        if(idx>=pages.length){
+          // All pages added — save
+          hideLoader();
+          var fname=(_fname||'WoodDepot').replace(/\.png$/i,'')+'.pdf';
+          var blob=pdf.output('blob');
+          iosAwareDownload(blob,fname,'application/pdf');
+          toast('PDF saved! ('+pages.length+' page'+(pages.length>1?'s':'')+')');
+          return;
+        }
+        // Scale each page canvas to 794×1123 before adding
+        var sc=document.createElement('canvas');
+        sc.width=794; sc.height=1123;
+        sc.getContext('2d').drawImage(pages[idx],0,0,794,1123);
+        sc.toBlob(function(blob){
+          var reader=new FileReader();
+          reader.onload=function(){
+            var dataUrl=reader.result;
+            if(idx>0) pdf.addPage();
+            pdf.addImage(dataUrl,'JPEG',0,0,A4pt_W,A4pt_H,undefined,'FAST');
+            addPage(idx+1);
+          };
+          reader.readAsDataURL(blob);
+        },'image/jpeg',0.92);
+      }
+      addPage(0);
+      return;
+    } catch(e){ hideLoader(); console.warn('jsPDF err:',e); }
+  }
+
+  // Fallback: print-to-PDF via iframe (works everywhere)
+  hideLoader();
+  toast('Opening print dialog…');
+  var done2=0, imgs2=[];
+  function collectImg(idx){
+    if(idx>=pages.length){
+      openPrintFrame(imgs2);
+      return;
+    }
+    var sc=document.createElement('canvas');
+    sc.width=794; sc.height=1123;
+    sc.getContext('2d').drawImage(pages[idx],0,0,794,1123);
+    sc.toBlob(function(blob){
+      var url=URL.createObjectURL(blob);
+      imgs2.push(url);
+      collectImg(idx+1);
+    },'image/jpeg',0.9);
+  }
+  function openPrintFrame(imgUrls){
+    var imgTags=imgUrls.map(function(src){
+      return '<img src="'+src+'" style="width:210mm;height:297mm;display:block;page-break-after:always;object-fit:fill"/>';
+    }).join('');
+    var html='<!DOCTYPE html><html><head><style>'
+      +'*{margin:0;padding:0;box-sizing:border-box}'
+      +'@page{size:A4 portrait;margin:0}body{background:#fff}'
+      +'</style></head><body>'+imgTags
+      +'<script>window.onload=function(){window.print();}<\/script>'
+      +'</body></html>';
+    var fr=document.getElementById('_pdfFrame');
+    if(fr) document.body.removeChild(fr);
+    fr=document.createElement('iframe');
+    fr.id='_pdfFrame';
+    fr.style.cssText='position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px';
+    document.body.appendChild(fr);
+    try{
+      fr.contentDocument.open();
+      fr.contentDocument.write(html);
+      fr.contentDocument.close();
+      setTimeout(function(){
+        try{ fr.contentWindow.focus(); fr.contentWindow.print(); }
+        catch(e2){
+          var w=window.open('','_blank');
+          if(w){ w.document.write(html); w.document.close(); }
+          else { toast('Allow popups and try again',false); }
+        }
+      },800);
+    } catch(e3){
+      var w=window.open('','_blank');
+      if(w){ w.document.write(html); w.document.close(); }
+      else { toast('Allow popups to save PDF',false); }
+    }
+  }
+  collectImg(0);
+});
+
+// ── PRINT ──────────────────────────────────────────────────────────
+v('btnPrint').addEventListener('click',function(){
+  if(!_canvas){toast('No image',false);return;}
+  var pages=_canvas._pages||[_canvas];
+  toast('Preparing print…');
+  var imgs=[]; var idx=0;
+  function collect(){
+    if(idx>=pages.length){ doPrint(imgs); return; }
+    var sc=document.createElement('canvas');
+    sc.width=794; sc.height=1123;
+    sc.getContext('2d').drawImage(pages[idx],0,0,794,1123);
+    sc.toBlob(function(blob){
+      imgs.push(URL.createObjectURL(blob));
+      idx++; collect();
+    },'image/jpeg',0.9);
+  }
+  function doPrint(imgUrls){
+    var imgTags=imgUrls.map(function(src){
+      return '<img src="'+src+'" style="width:210mm;height:297mm;display:block;page-break-after:always;object-fit:fill"/>';
+    }).join('');
+    var old=document.getElementById('_pf');
+    if(old) old.parentNode.removeChild(old);
+    var fr=document.createElement('iframe');
+    fr.id='_pf';
+    fr.style.cssText='position:fixed;left:0;top:0;width:0;height:0;border:0;visibility:hidden';
+    document.body.appendChild(fr);
+    var fd=fr.contentDocument||fr.contentWindow.document;
+    fd.open();
+    fd.write('<!DOCTYPE html><html><head><title>Print</title>'
+      +'<style>*{margin:0;padding:0}body{background:#fff}'
+      +'@page{margin:0;size:A4 portrait}'
+      +'</style></head><body>'+imgTags+'</body></html>');
+    fd.close();
+    setTimeout(function(){
+      try{
+        fr.contentWindow.focus(); fr.contentWindow.print();
+        toast('Print dialog opened');
+      } catch(e){
+        var b=new Blob(['<!DOCTYPE html><html><head><title>Print</title>'
+          +'<style>*{margin:0}body{background:#fff}@page{margin:0;size:A4 portrait}</style></head>'
+          +'<body>'+imgTags+'</body></html>'],{type:'text/html'});
+        var u=URL.createObjectURL(b);
+        var a=document.createElement('a');
+        a.href=u; a.target='_blank'; a.rel='noopener';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(function(){URL.revokeObjectURL(u);},60000);
+        toast('Opening print tab…');
+      }
+    },600);
+  }
+  collect();
+});
+
+// ── INIT ───────────────────────────────────────────────────────────
+// Auto-save customer fields as user types
+['custName','custMob','custAddr','vehNo','vehDriver','vehFrom','vehTo'].forEach(function(id){
+  var el=v(id); if(el) el.addEventListener('input',saveState);
+});
+// Show recovery toast if data was restored
+if(session.length||bill.length){
+  toast('Session restored \u2714 ('+(session.length)+' session, '+(bill.length)+' bill items)');
+}
+v('svBadge').textContent=savedBills.length;
+renderSession();
+renderBill();
+// Fix 4: ensure payment totals are shown correctly after state restore
+if(bill.length) calcDue();
+// Cloud sync: flush any queued bills if we're online
+if(navigator.onLine) flushSyncQueue();
+updateSyncQueueInfo();
+</script>
+</body>
+</html>
