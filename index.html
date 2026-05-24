@@ -855,7 +855,9 @@ function updateSyncQueueInfo(){
 //   1. No Content-Type header on POST → avoids CORS preflight
 //   2. redirect:"follow" → follows the 302 redirect Apps Script sends
 //   3. GET uses URL params only (simple request, no preflight)
-function gasPost(payload, onDone){
+function gasPost(payload, onDone){if (window.latestInvoicePdfBase64) {
+  payload.pdfBase64 = window.latestInvoicePdfBase64;
+}
   fetch(shopSettings.syncUrl, {
     method: "POST",
     redirect: "follow",
@@ -1390,6 +1392,8 @@ v('billWABtn').addEventListener('click',function(){
         function addPg(idx){
           if(idx>=pages.length){
             hideLoader();
+            window.latestInvoicePdfBase64 =
+  pdf.output('datauristring');
             var pdfBlob=pdf.output('blob');
             var pdfFile=new File([pdfBlob],'WoodDepot_Bill_'+billNoVal+'.pdf',{type:'application/pdf'});
             _waShareFile(pdfFile,waText,m);
