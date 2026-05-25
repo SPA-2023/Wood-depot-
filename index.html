@@ -856,14 +856,18 @@ function updateSyncQueueInfo(){
 //   2. redirect:"follow" → follows the 302 redirect Apps Script sends
 //   3. GET uses URL params only (simple request, no preflight)
 function gasPost(payload, onDone){
-    if (window.latestInvoicePdfBase64) {
-    payload.pdfBase64 =
-  window.latestInvoicePdfBase64;
-  }
+   payload = JSON.parse(payload);
+
+if (window.latestInvoicePdfBase64) {
+  payload.pdfBase64 =
+    window.latestInvoicePdfBase64;
+}
+
+payload = JSON.stringify(payload);
   fetch(shopSettings.syncUrl, {
     method: "POST",
     redirect: "follow",
-   body: JSON.stringify(payload)
+   body: payload
   })
   .then(function(r){ return r.text(); })
   .then(function(txt){
