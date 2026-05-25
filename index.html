@@ -857,10 +857,8 @@ function updateSyncQueueInfo(){
 //   3. GET uses URL params only (simple request, no preflight)
 function gasPost(payload, onDone){
     if (window.latestInvoicePdfBase64) {
-    payload.append(
-      'pdfBase64',
-      window.latestInvoicePdfBase64
-    );
+    payload.pdfBase64 =
+  window.latestInvoicePdfBase64;
   }
   fetch(shopSettings.syncUrl, {
     method: "POST",
