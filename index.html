@@ -863,7 +863,7 @@ function gasPost(payload, onDone){
   fetch(shopSettings.syncUrl, {
     method: "POST",
     redirect: "follow",
-    body: payload
+   body: JSON.stringify(payload)
   })
   .then(function(r){ return r.text(); })
   .then(function(txt){
