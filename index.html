@@ -2128,6 +2128,30 @@ v('billSaveBtn').addEventListener('click',function(){
   };
   savedBills.unshift(snapshot);
   billCtr++; localStorage.setItem('wd_bc',billCtr);
+  const billData = {
+  customer: n,
+  mobile: m,
+  total: total,
+  paid: paid,
+  due: Math.max(0,total-paid),
+  vehicle: v('vehNo').value,
+  driver: v('vehDriver').value,
+  createdAt: formattedDate
+};
+
+fetch("https://hook.eu1.make.com/gj6reicfx3em1x4msko3cq5yqm9miwxd", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(billData)
+})
+.then(() => {
+  console.log("Bill sent to Make.com");
+})
+.catch((err) => {
+  console.error("Webhook Error:", err);
+});
   // Fix 1+11: auto-clear bill after save to prevent duplicate saves
   bill=[];
   v('paidAmt').value='';v('transportAmt').value='';v('loadingAmt').value='';
